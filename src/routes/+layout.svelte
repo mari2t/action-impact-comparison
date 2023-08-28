@@ -3,7 +3,7 @@
   import "../app.css";
 </script>
 
-<div class="app">
+<div class="custom-bg">
   <Header />
 
   <main>
@@ -11,9 +11,7 @@
   </main>
 
   <footer>
-    <p>
-      visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit
-    </p>
+    <p>© 2023 - Present mari2t All rights reserved.</p>
   </footer>
 </div>
 
