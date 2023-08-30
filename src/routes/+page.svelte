@@ -47,14 +47,18 @@
     >
     <div>
       {#each worryOutputs as output}
-        <img
-          src="/src/lib/images/inaction-icon.png"
-          alt="Inaction scenario"
-          class="w-24 h-24 mx-2"
-        />
-        <p class="w-72 m-0 mt-1 py-2 px-4 rounded text-gray-900 bg-e0efff">
-          {output}
-        </p>
+        <div class="flex">
+          <img
+            src="/src/lib/images/distress-people.png"
+            alt="Inaction scenario"
+            class="w-24 h-24 mx-2"
+          />
+          <div class="chat chat-start w-full">
+            <div class="chat-bubble">
+              {output}
+            </div>
+          </div>
+        </div>
       {/each}
     </div>
   </div>
@@ -65,9 +69,7 @@
   <div class="flex flex-col w-2/3 p-4">
     <div class="m-4 p-2">
       <div class="flex justify-center my-2">
-        <label for="inaction" class="text-lg font-semibold"
-          >悪魔のささやき
-        </label>
+        <label for="inaction" class="text-lg font-semibold">悪魔 </label>
       </div>
       <div class="flex items-center">
         <img
@@ -89,7 +91,11 @@
       </div>
       <div>
         {#each inactionOutputs as output}
-          <p class="mt-2">{output}</p>
+          <div class="chat chat-start w-full">
+            <div class="chat-bubble">
+              <p class="mt-2">{output}</p>
+            </div>
+          </div>
         {/each}
       </div>
     </div>
@@ -99,9 +105,7 @@
   <div class="flex flex-col w-2/3 p-2">
     <div class="m-4 p-2">
       <div class="flex justify-center my-2">
-        <label for="action" class="text-lg font-semibold"
-          >天使のささやき
-        </label>
+        <label for="action" class="text-lg font-semibold">天使 </label>
       </div>
       <div class="flex items-center">
         <img
@@ -112,7 +116,7 @@
         <input
           id="action"
           type="text"
-          class="border p-2 mx-2 rounded border-2"
+          class="p-2 mx-2 rounded border-2"
           bind:value={actionText}
           bind:this={actionInput}
         />
@@ -124,7 +128,11 @@
     </div>
     <div>
       {#each actionOutputs as output}
-        <p class="mt-2 ml-12">{output}</p>
+        <div class="chat chat-start w-full">
+          <div class="chat-bubble">
+            {output}
+          </div>
+        </div>
       {/each}
     </div>
   </div>
