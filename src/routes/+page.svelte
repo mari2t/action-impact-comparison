@@ -1,139 +1,244 @@
 <script lang="ts">
-  let worryText: string = "";
-  let inactionText: string = "";
-  let actionText: string = "";
+  import { username, issue, actionScores, inactionScores } from "./store";
+  import { goto } from "$app/navigation";
 
-  let worryOutputs: string[] = [];
-  let inactionOutputs: string[] = [];
-  let actionOutputs: string[] = [];
+  interface ScoreInfo {
+    action?: string; // ここをオプショナルにするか、必ず指定するようにします。
+    category: string | null; // ここを string に変更
+    points: number | null;
+    note: string | null;
+  }
+  // 一時的な保存変数
+  let actionPoints: number[] = [];
+  let actionNotes: string[] = [];
+  let inactionPoints: number[] = [];
+  let inactionNotes: string[] = [];
 
-  let worryInput: HTMLInputElement;
-  let inactionInput: HTMLInputElement;
-  let actionInput: HTMLInputElement;
+  const actionCategories = [
+    "成長・スキル向上",
+    "問題解決",
+    "人間関係",
+    "金銭的利益",
+    "心理的満足",
+    "時間効率",
+  ];
 
-  function updateWorry() {
-    worryOutputs = [...worryOutputs, worryText];
-    worryText = "";
-    worryInput.focus();
+  const actionDetails = [
+    "新しいスキルを習得したり、既存のスキルを向上させる可能性がある。",
+    "現状にある問題や課題を解消する手段となる可能性がある。",
+    "新しい人々と出会ったり、既存の関係を深めるチャンスがある。",
+    "行動によって得られる財務的な報酬や節約。",
+    "達成感や幸福感、自己実現など、心の側面での利点。",
+    "将来的に時間を節約したり、より効率的な方法でタスクを完了できる。",
+  ];
+
+  const inactionCategories = [
+    "リスク回避",
+    "時間節約",
+    "安定性",
+    "精神的平和",
+    "リソースの節約",
+    "他の機会への集中",
+  ];
+
+  const inactionDetails = [
+    "新たな問題やリスクを生む可能性が低くなる。",
+    "現状維持には新しい投資や時間は必要ない場合が多い。",
+    "既存の状況やルーチンが乱れることなく、安定した環境を保てる。",
+    "新しい挑戦や変化によるストレスや不安がない。",
+    "金銭、エネルギー、その他のリソースを節約できる。",
+    "その行動をしないことで、他の重要な事項や機会に集中できる。",
+  ];
+
+  // 初期値の設定
+  const initializeScores = (numOfCategories: number): number[] => {
+    const arr: number[] = [];
+    for (let i = 0; i < numOfCategories; i++) {
+      arr.push(3); // 初期値は3に設定
+    }
+    return arr;
+  };
+
+  // 初期値の適用
+  actionPoints = initializeScores(actionCategories.length);
+  inactionPoints = initializeScores(inactionCategories.length);
+
+  // データを保存
+  function updateScore(
+    action: string,
+    categoryIndex: number,
+    points: number,
+    note: string
+  ) {
+    // カテゴリの名前を取得
+    const categoryName =
+      action === "action"
+        ? actionCategories[categoryIndex]
+        : inactionCategories[categoryIndex];
+
+    if (action === "action") {
+      // actionのスコアを更新
+      actionScores.update((currentScores: ScoreInfo[]) => {
+        const updatedScores = Array.isArray(currentScores)
+          ? currentScores
+          : [currentScores];
+
+        if (!updatedScores[categoryIndex]) {
+          updatedScores[categoryIndex] = {
+            action,
+            category: categoryName,
+            points: null,
+            note: null,
+          };
+        }
+        updatedScores[categoryIndex] = {
+          action,
+          category: categoryName,
+          points,
+          note,
+        };
+        return [...updatedScores];
+      });
+    } else {
+      // inactionのスコアを更新
+      inactionScores.update((currentScores: ScoreInfo[]) => {
+        const updatedScores = Array.isArray(currentScores)
+          ? currentScores
+          : [currentScores];
+
+        if (!updatedScores[categoryIndex]) {
+          updatedScores[categoryIndex] = {
+            action,
+            category: categoryName,
+            points: null,
+            note: null,
+          };
+        }
+        updatedScores[categoryIndex] = {
+          action,
+          category: categoryName,
+          points,
+          note,
+        };
+        return [...updatedScores];
+      });
+    }
   }
 
-  function updateInaction() {
-    inactionOutputs = [...inactionOutputs, inactionText];
-    inactionText = "";
-    inactionInput.focus();
+  function saveData() {
+    actionPoints.forEach((point, index) => {
+      updateScore("action", index, point, actionNotes[index]);
+    });
+
+    inactionPoints.forEach((point, index) => {
+      updateScore("inaction", index, point, inactionNotes[index]);
+    });
   }
 
-  function updateAction() {
-    actionOutputs = [...actionOutputs, actionText];
-    actionText = "";
-    actionInput.focus();
+  function showResult() {
+    saveData();
+    goto("/actionResult");
   }
 </script>
 
-<div class="text-center p-4">
-  <!-- 悩んでいること -->
-  <div class="m-4 p-2 rounded bg-gray-200 shadow">
-    <label for="worry" class="text-lg font-semibold">悩んでいること: </label>
-    <input
-      id="worry"
-      type="text"
-      class="border p-2 rounded"
-      bind:value={worryText}
-      bind:this={worryInput}
-    />
-    <button
-      class="bg-gray-700 text-white p-2 ml-2 rounded"
-      on:click={updateWorry}>OK</button
-    >
-    <div>
-      {#each worryOutputs as output}
-        <div class="flex">
-          <img
-            src="/src/lib/images/distress-people.png"
-            alt="Inaction scenario"
-            class="w-24 h-24 mx-2"
-          />
-          <div class="chat chat-start w-full">
-            <div class="chat-bubble">
-              {output}
-            </div>
-          </div>
-        </div>
-      {/each}
+<div class="container mx-auto p-4 w-1/2">
+  <div class="mb-4 flex">
+    <div class="w-1/5">
+      <label for="username" class="text-lg mb-2">ユーザー名: </label>
     </div>
+    <input
+      id="username"
+      type="text"
+      bind:value={$username}
+      maxlength="30"
+      class="border p-2 rounded w-3/5"
+    />
+  </div>
+  <div class="mb-4 flex">
+    <div class="w-1/5">
+      <label for="issue" class="text-lg mb-2">悩み: </label>
+    </div>
+
+    <input
+      id="issue"
+      type="text"
+      bind:value={$issue}
+      maxlength="30"
+      class="border p-2 rounded w-3/5"
+    />
   </div>
 </div>
 
-<div class="flex h-screen">
-  <!-- 行動しない場合 -->
-  <div class="flex flex-col w-2/3 p-4">
-    <div class="m-4 p-2">
-      <div class="flex justify-center my-2">
-        <label for="inaction" class="text-lg font-semibold">悪魔 </label>
+<div class="container mx-auto p-4 w-3/4">
+  <h2 class="text-2xl mb-4">行動することで得られるメリット</h2>
+  {#each actionCategories as category, index}
+    <div class="mb-4 flex">
+      <div class="w-1/2">
+        <p class="text-lg">{category}</p>
+        <small class="text-gray-500">{actionDetails[index]}</small>
       </div>
-      <div class="flex items-center">
-        <img
-          src="/src/lib/images/inaction-icon.png"
-          alt="Inaction scenario"
-          class="w-32 h-32 mx-2"
-        />
-        <input
-          id="inaction"
-          type="text"
-          class="border-2 p-2 mx-2 rounded"
-          bind:value={inactionText}
-          bind:this={inactionInput}
-        />
-        <button
-          class="bg-gray-700 text-white p-2 mx-2 rounded"
-          on:click={updateInaction}>OK</button
-        >
-      </div>
-      <div>
-        {#each inactionOutputs as output}
-          <div class="chat chat-start w-full">
-            <div class="chat-bubble">
-              <p class="mt-2">{output}</p>
-            </div>
-          </div>
+      <div class="w-1/5">
+        {#each [1, 2, 3, 4, 5] as num (num)}
+          <label class="inline-flex items-center">
+            <input
+              type="radio"
+              class="form-radio ml-1"
+              value={num}
+              bind:group={actionPoints[index]}
+            />
+            <span class="ml-2">{num}</span>
+          </label>
         {/each}
       </div>
-    </div>
-  </div>
 
-  <!-- 行動する場合 -->
-  <div class="flex flex-col w-2/3 p-2">
-    <div class="m-4 p-2">
-      <div class="flex justify-center my-2">
-        <label for="action" class="text-lg font-semibold">天使 </label>
-      </div>
-      <div class="flex items-center">
-        <img
-          src="/src/lib/images/action-icon.png"
-          alt="Action scenario"
-          class="w-32 h-32 mx-2"
-        />
-        <input
-          id="action"
-          type="text"
-          class="p-2 mx-2 rounded border-2"
-          bind:value={actionText}
-          bind:this={actionInput}
-        />
-        <button
-          class="bg-gray-700 text-white p-2 mx-2 rounded"
-          on:click={updateAction}>OK</button
-        >
-      </div>
+      <input
+        type="text"
+        placeholder="メモ"
+        bind:value={actionNotes[index]}
+        maxlength="30"
+        class="border p-2 rounded ml-2 w-2/5"
+      />
     </div>
-    <div>
-      {#each actionOutputs as output}
-        <div class="chat chat-start w-full">
-          <div class="chat-bubble">
-            {output}
-          </div>
-        </div>
-      {/each}
+  {/each}
+</div>
+
+<div class="container mx-auto p-4 w-3/4">
+  <h2 class="text-2xl mb-4">行動しないことで得られるメリット</h2>
+  {#each inactionCategories as category, index}
+    <div class="mb-4 flex">
+      <div class="w-1/2">
+        <p class="text-lg">{category}</p>
+        <small class="text-gray-500">{inactionDetails[index]}</small>
+      </div>
+      <div class="w-1/5">
+        {#each [1, 2, 3, 4, 5] as num (num)}
+          <label class="inline-flex items-center">
+            <input
+              type="radio"
+              class="form-radio ml-1"
+              value={num}
+              bind:group={inactionPoints[index]}
+            />
+            <span class="ml-2">{num}</span>
+          </label>
+        {/each}
+      </div>
+      <input
+        type="text"
+        placeholder="メモ"
+        bind:value={inactionNotes[index]}
+        maxlength="30"
+        class="border p-2 rounded ml-2 w-2/5"
+      />
     </div>
-  </div>
+  {/each}
+</div>
+
+<div class="flex my-4 justify-center align-middle text-center">
+  <button
+    class="bg-blue-500 hover:bg-blue-700 text-white p-4 mx-2 rounded"
+    on:click={showResult}
+  >
+    比較結果を見る
+  </button>
 </div>
