@@ -6,7 +6,6 @@ type ScoreInfo = {
   note: string | null;
 };
 
-export const username = writable("");
 export const issue = writable("");
 export const actionScores = writable<ScoreInfo[]>([]);
 export const inactionScores = writable<ScoreInfo[]>([]);

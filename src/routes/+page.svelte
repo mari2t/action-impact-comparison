@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { username, issue, actionScores, inactionScores } from "./store";
+  import { issue, actionScores, inactionScores } from "./store";
   import { goto } from "$app/navigation";
 
   interface ScoreInfo {
@@ -15,7 +15,7 @@
   let inactionNotes: string[] = [];
 
   const actionCategories = [
-    "成長・スキル向上",
+    "成長",
     "問題解決",
     "人間関係",
     "金銭的利益",
@@ -120,6 +120,7 @@
           points,
           note,
         };
+        console.log($inactionScores);
         return [...updatedScores];
       });
     }
@@ -142,19 +143,7 @@
 </script>
 
 <div class="container mx-auto p-4 w-1/2">
-  <div class="mb-4 flex">
-    <div class="w-1/5">
-      <label for="username" class="text-lg mb-2">ユーザー名: </label>
-    </div>
-    <input
-      id="username"
-      type="text"
-      bind:value={$username}
-      maxlength="30"
-      class="border p-2 rounded w-3/5"
-    />
-  </div>
-  <div class="mb-4 flex">
+  <div class="my-4 flex">
     <div class="w-1/5">
       <label for="issue" class="text-lg mb-2">悩み: </label>
     </div>
@@ -175,7 +164,7 @@
     <div class="mb-4 flex">
       <div class="w-1/2">
         <p class="text-lg">{category}</p>
-        <small class="text-gray-500">{actionDetails[index]}</small>
+        <p class="text-gray-500">{actionDetails[index]}</p>
       </div>
       <div class="w-1/5">
         {#each [1, 2, 3, 4, 5] as num (num)}
@@ -208,7 +197,7 @@
     <div class="mb-4 flex">
       <div class="w-1/2">
         <p class="text-lg">{category}</p>
-        <small class="text-gray-500">{inactionDetails[index]}</small>
+        <p class="text-gray-500">{inactionDetails[index]}</p>
       </div>
       <div class="w-1/5">
         {#each [1, 2, 3, 4, 5] as num (num)}
