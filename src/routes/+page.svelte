@@ -24,12 +24,12 @@
   ];
 
   const actionDetails = [
-    "資格やスキルを手に入れることで、キャリアが向上し収入が増加する可能性があります。",
-    "家庭内のコミュニケーションが良くなり、精神的なサポートが増える可能性があります。",
-    "体調が良く、精神的にも安定し、生活の質が向上する可能性があります。",
-    "ネットワーキングが広がり、精神的な充足感が得られます。",
-    "貯金や投資により、将来的な経済的安定を手に入れることができます。",
-    "心の充足とリラクゼーションが得られ、時には新しい人々と出会うきっかけにもなります。",
+    "資格やスキルを手に入れることできる？",
+    "家庭内のコミュニケーションが良くなる？",
+    "体調が良く、精神的にも安定する？。",
+    "ネットワーキングが広がる？",
+    "貯金や投資ができる？",
+    "心の充足とリラクゼーションが得られる？",
   ];
 
   const inactionCategories = [
@@ -42,12 +42,12 @@
   ];
 
   const inactionDetails = [
-    "学費や時間を節約し、それを他の活動や投資に使えます。",
-    "自分自身の時間を確保でき、独立した生活を楽しむことができます。",
-    "すぐには時間とお金を節約できますが、長期的には健康問題が出るリスクが高まります。",
-    "人間関係のストレスを避けられ、自分自身に集中する時間が増えます。",
-    "短期的な楽しみや体験にお金を使えますが、将来的なリスクが高まります。",
-    "趣味にかかる時間や費用を節約し、それを他の必要な事項に振り向けることができます。",
+    "学費や時間を節約できるかも？",
+    "自分自身の時間を確保でるかも？",
+    "時間とお金を節約できるかも？",
+    "人間関係のストレスを避けられるかも？",
+    "お金の節約ができるかも？",
+    "趣味にかかる時間や費用をセーブすることができるかも？",
   ];
 
   // 初期値の設定
@@ -158,11 +158,11 @@
   </div>
 </div>
 
-<div class="container mx-auto p-4 w-3/4">
+<div class="container mx-auto p-4 w-3/5">
   <h2 class="text-2xl mb-4">行動することで得られるメリット</h2>
   {#each actionCategories as category, index}
     <div class="mb-4 flex">
-      <div class="w-1/2">
+      <div class="w-2/5">
         <p class="text-lg">{category}</p>
         <p class="text-gray-500">{actionDetails[index]}</p>
       </div>
@@ -171,7 +171,7 @@
           <label class="inline-flex items-center">
             <input
               type="radio"
-              class="form-radio ml-1"
+              class="form-radio ml-2"
               value={num}
               bind:group={actionPoints[index]}
             />
@@ -191,11 +191,11 @@
   {/each}
 </div>
 
-<div class="container mx-auto p-4 w-3/4">
+<div class="container mx-auto p-4 w-3/5">
   <h2 class="text-2xl mb-4">行動しないことで得られるメリット</h2>
   {#each inactionCategories as category, index}
     <div class="mb-4 flex">
-      <div class="w-1/2">
+      <div class="w-2/5">
         <p class="text-lg">{category}</p>
         <p class="text-gray-500">{inactionDetails[index]}</p>
       </div>
@@ -204,7 +204,7 @@
           <label class="inline-flex items-center">
             <input
               type="radio"
-              class="form-radio ml-1"
+              class="form-radio ml-2"
               value={num}
               bind:group={inactionPoints[index]}
             />
