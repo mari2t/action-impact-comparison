@@ -34,11 +34,11 @@
 
   const inactionCategories = [
     "時間",
-    "安定性",
+    "環境の安定性",
     "お金",
     "エネルギー",
-    "以前の自分",
     "人間関係",
+    "以前の自分",
   ];
 
   const inactionDetails = [
@@ -46,8 +46,8 @@
     "変化しないことで安定性を保てるかも？",
     "お金を他の用途に使えるかも？",
     "エネルギーを節約できるかも？",
-    "自分自身が変わらなくてもいいかも？",
     "新しい人間関係によるストレスを経験しなくてもいいかも？",
+    "自分自身が変わらなくてもいいかも？",
   ];
 
   // 初期値の設定
@@ -161,12 +161,12 @@
 <div class="container mx-auto p-4 w-3/5">
   <h2 class="text-2xl mb-4">行動することで得られるメリット</h2>
   {#each actionCategories as category, index}
-    <div class="mb-4 flex">
+    <div class="mb-4 flex bg-sky-100 p-2">
       <div class="w-2/5">
         <p class="text-lg">{category}</p>
         <p class="text-gray-500">{actionDetails[index]}</p>
       </div>
-      <div class="w-1/5">
+      <div class="w-1/5 mx-auto flex justify-center items-center">
         {#each [1, 2, 3, 4, 5] as num (num)}
           <label class="inline-flex items-center">
             <input
@@ -194,12 +194,12 @@
 <div class="container mx-auto p-4 w-3/5">
   <h2 class="text-2xl mb-4">行動しないことで得られるメリット</h2>
   {#each inactionCategories as category, index}
-    <div class="mb-4 flex">
+    <div class="mb-4 flex bg-red-100 p-2">
       <div class="w-2/5">
         <p class="text-lg">{category}</p>
         <p class="text-gray-500">{inactionDetails[index]}</p>
       </div>
-      <div class="w-1/5">
+      <div class="w-1/5 mx-auto flex justify-center items-center">
         {#each [1, 2, 3, 4, 5] as num (num)}
           <label class="inline-flex items-center">
             <input
@@ -212,12 +212,13 @@
           </label>
         {/each}
       </div>
+
       <input
         type="text"
         placeholder="メモ"
         bind:value={inactionNotes[index]}
         maxlength="30"
-        class="border p-2 rounded ml-2 w-2/5"
+        class="border rounded ml-2 w-2/5 p-2"
       />
     </div>
   {/each}

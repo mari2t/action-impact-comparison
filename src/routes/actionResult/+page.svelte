@@ -187,11 +187,10 @@
       <h4 class="text-lg mb-4 relative underline-custom">
         作成日時 : {new Date().toLocaleDateString()}
       </h4>
-      <p>比較結果は下記の通りとなりました。</p>
     </div>
 
     <!--　推奨行動 -->
-    <div class="mt-8">
+    <div class="mt-8 justify-center">
       <h3 class="text-xl font-semibold mb-2 underline-custom my-8">
         比較結果 : {recommendedAction}
       </h3>
@@ -208,7 +207,7 @@
           />
           {#each categoryLabelCoordinates as coordinate, i}
             <text
-              x={i < 3 ? coordinate.x + 10 : coordinate.x - 60}
+              x={i < 3 ? coordinate.x + -10 : coordinate.x - 60}
               y={i < 3 ? coordinate.y + 20 : coordinate.y - 20}
               font-family="Verdana"
               font-size="14"
@@ -271,7 +270,7 @@
               <tr class="text-center">
                 <td class="py-2 px-4 border">{score.category}</td>
                 <td class="py-2 px-4 border">{score.points}</td>
-                <td class="py-2 px-4 border">{score.note}</td>
+                <td class="py-2 px-4 border">{score.note || "-"}</td>
               </tr>
             {/each}
           </tbody>
@@ -296,7 +295,7 @@
               <tr class="text-center">
                 <td class="py-2 px-4 border">{score.category}</td>
                 <td class="py-2 px-4 border">{score.points}</td>
-                <td class="py-2 px-4 border">{score.note}</td>
+                <td class="py-2 px-4 border">{score.note || "-"}</td>
               </tr>
             {/each}
           </tbody>
