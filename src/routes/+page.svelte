@@ -15,38 +15,38 @@
   let inactionNotes: string[] = [];
 
   const actionCategories = [
-    "スキルアップ",
-    "家族・親族関係",
-    "健康",
-    "交友関係",
-    "経済的状況",
-    "興味・趣味",
+    "🚀スキルアップ",
+    "👪家族関係",
+    "💪健康",
+    "🫶交友関係",
+    "💴経済的状況",
+    "🎵興味・趣味",
   ];
 
   const actionDetails = [
-    "資格やスキルを手に入れることできる？",
-    "家庭内のコミュニケーションが良くなる？",
-    "体調が良く、精神的にも安定する？。",
-    "ネットワーキングが広がる？",
-    "貯金や投資ができる？",
-    "心の充足とリラクゼーションが得られる？",
+    "資格やスキルを手に入れることできるかも？",
+    "家族のコミュニケーションが良くなるかも？",
+    "体調や精神面に対して良いかも？。",
+    "人間関係が広がるかも？",
+    "貯金や資産が増えるかも？",
+    "楽しさや面白さを体験できるかも？",
   ];
 
   const inactionCategories = [
-    "時間",
-    "環境の安定性",
-    "お金",
-    "エネルギー",
-    "人間関係",
-    "以前の自分",
+    "⌛時間",
+    "🏠環境の安定性",
+    "💰お金",
+    "🏃エネルギー",
+    "🤝人間関係",
+    "😀以前の自分",
   ];
 
   const inactionDetails = [
     "挑戦する時間を他の重要なことに使えるかも？",
-    "変化しないことで安定性を保てるかも？",
+    "変化によるストレスを経験しなくて良いかも？",
     "お金を他の用途に使えるかも？",
     "エネルギーを節約できるかも？",
-    "新しい人間関係によるストレスを経験しなくてもいいかも？",
+    "人間関係によるストレスを経験しなくてもいいかも？",
     "自分自身が変わらなくてもいいかも？",
   ];
 
@@ -161,8 +161,8 @@
 <div class="container mx-auto p-4 w-3/5">
   <h2 class="text-2xl mb-4">行動することで得られるメリット</h2>
   {#each actionCategories as category, index}
-    <div class="mb-4 flex bg-sky-100 p-2">
-      <div class="w-2/5">
+    <div class="mb-4 flex bg-teal-50 p-2">
+      <div class="w-1/3">
         <p class="text-lg">{category}</p>
         <p class="text-gray-500">{actionDetails[index]}</p>
       </div>
@@ -185,7 +185,7 @@
         placeholder="メモ"
         bind:value={actionNotes[index]}
         maxlength="30"
-        class="border p-2 rounded ml-2 w-2/5"
+        class="border p-2 rounded ml-2 w-1/3"
       />
     </div>
   {/each}
@@ -194,8 +194,8 @@
 <div class="container mx-auto p-4 w-3/5">
   <h2 class="text-2xl mb-4">行動しないことで得られるメリット</h2>
   {#each inactionCategories as category, index}
-    <div class="mb-4 flex bg-red-100 p-2">
-      <div class="w-2/5">
+    <div class="mb-4 flex bg-red-50 p-2">
+      <div class="w-1/3">
         <p class="text-lg">{category}</p>
         <p class="text-gray-500">{inactionDetails[index]}</p>
       </div>
@@ -218,7 +218,7 @@
         placeholder="メモ"
         bind:value={inactionNotes[index]}
         maxlength="30"
-        class="border rounded ml-2 w-2/5 p-2"
+        class="border rounded ml-2 w-1/3 p-2"
       />
     </div>
   {/each}
