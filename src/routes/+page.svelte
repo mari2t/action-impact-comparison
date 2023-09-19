@@ -16,38 +16,57 @@
 
   const actionCategories = [
     "🚀スキルアップ",
-    "👪家族関係",
-    "💪健康",
-    "🫶交友関係",
     "💴経済的状況",
+    "🫶交友関係",
+    "💪健康",
+    "👪家族関係",
     "🎵興味・趣味",
   ];
 
   const actionDetails = [
-    "資格やスキルを手に入れることできるかも？",
-    "家族のコミュニケーションが良くなるかも？",
-    "体調や精神面に対して良いかも？。",
-    "人間関係が広がるかも？",
+    "スキルを手に入れることできるかも？",
     "貯金や資産が増えるかも？",
+    "人間関係が広がるかも？",
+    "体調や精神面に対して良いかも？",
+    "家族のコミュニケーションが良くなるかも？",
     "楽しさや面白さを体験できるかも？",
+  ];
+
+  const actionImage = [
+    "action-skill.jpg",
+    "action-money.jpg",
+    "action-friendship.jpg",
+    "action-health.jpg",
+    "action-family.jpg",
+    "action-joy.jpg",
   ];
 
   const inactionCategories = [
     "⌛時間",
-    "🏠環境の安定性",
     "💰お金",
-    "🏃エネルギー",
     "🤝人間関係",
-    "😀以前の自分",
+    "🏠環境の安定性",
+    "🏃エネルギー",
+
+    "😀変わらない自分",
   ];
 
   const inactionDetails = [
-    "挑戦する時間を他の重要なことに使えるかも？",
-    "変化によるストレスを経験しなくて良いかも？",
+    "時間を他の重要なことに使えるかも？",
     "お金を他の用途に使えるかも？",
+    "今の人間関係を維持できるかも？",
+    "変化によるストレスが無いかも？",
     "エネルギーを節約できるかも？",
-    "人間関係によるストレスを経験しなくてもいいかも？",
     "自分自身が変わらなくてもいいかも？",
+  ];
+
+  const inactionImage = [
+    "inaction-clock.jpg",
+    "inaction-money.jpg",
+    "inaction-friendship.jpg",
+    "inaction-circumstance.jpg",
+    "inaction-energy.jpg",
+    "inaction-myself.jpg",
   ];
 
   // 初期値の設定
@@ -142,10 +161,10 @@
   }
 </script>
 
-<div class="container mx-auto p-4 w-1/2">
+<div class="container mx-auto p-4 w-3/5 bg-gray-200 my-8">
   <div class="my-4 flex">
     <div class="w-1/5">
-      <label for="issue" class="text-lg mb-2">悩み: </label>
+      <label for="issue" class="text-3xl mb-2 font-bold">悩み: </label>
     </div>
 
     <input
@@ -153,75 +172,95 @@
       type="text"
       bind:value={$issue}
       maxlength="30"
-      class="border p-2 rounded w-3/5"
+      class="border p-2 rounded w-2/3"
     />
   </div>
 </div>
 
-<div class="container mx-auto p-4 w-3/5">
-  <h2 class="text-2xl mb-4">行動することで得られるメリット</h2>
-  {#each actionCategories as category, index}
-    <div class="mb-4 flex bg-teal-50 p-2">
-      <div class="w-1/3">
-        <p class="text-lg">{category}</p>
-        <p class="text-gray-500">{actionDetails[index]}</p>
+<div class="container mx-auto p-4 w-3/5 bg-blue-100 mb-8">
+  <h2 class="text-2xl mb-4 font-bold text-center">
+    行動することで得られるメリット
+  </h2>
+  <div class="card-container">
+    {#each actionCategories as category, index}
+      <div class="card w-96 bg-base-100 shadow-xl">
+        <figure class="px-10 pt-10">
+          <img
+            src={`/src/lib/images/${actionImage[index]}`}
+            alt={category}
+            class="rounded-xl"
+          />
+        </figure>
+        <div class="card-body items-center text-center">
+          <h2 class="card-title">{category}</h2>
+          <p>{actionDetails[index]}</p>
+          <div class="w-1/5 mx-auto flex justify-center items-center">
+            {#each [1, 2, 3, 4, 5] as num (num)}
+              <label class="inline-flex items-center">
+                <input
+                  type="radio"
+                  class="form-radio ml-2"
+                  value={num}
+                  bind:group={actionPoints[index]}
+                />
+                <span class="ml-2">{num}</span>
+              </label>
+            {/each}
+          </div>
+          <input
+            type="text"
+            placeholder="メモ"
+            bind:value={actionNotes[index]}
+            maxlength="30"
+            class="border rounded ml-2 w-4/5 p-2"
+          />
+        </div>
       </div>
-      <div class="w-1/5 mx-auto flex justify-center items-center">
-        {#each [1, 2, 3, 4, 5] as num (num)}
-          <label class="inline-flex items-center">
-            <input
-              type="radio"
-              class="form-radio ml-2"
-              value={num}
-              bind:group={actionPoints[index]}
-            />
-            <span class="ml-2">{num}</span>
-          </label>
-        {/each}
-      </div>
-
-      <input
-        type="text"
-        placeholder="メモ"
-        bind:value={actionNotes[index]}
-        maxlength="30"
-        class="border p-2 rounded ml-2 w-1/3"
-      />
-    </div>
-  {/each}
+    {/each}
+  </div>
 </div>
 
-<div class="container mx-auto p-4 w-3/5">
-  <h2 class="text-2xl mb-4">行動しないことで得られるメリット</h2>
-  {#each inactionCategories as category, index}
-    <div class="mb-4 flex bg-red-50 p-2">
-      <div class="w-1/3">
-        <p class="text-lg">{category}</p>
-        <p class="text-gray-500">{inactionDetails[index]}</p>
+<div class="container mx-auto p-4 w-3/5 bg-red-100">
+  <h2 class="text-2xl mb-4 font-bold text-center">
+    行動しないことで得られるメリット
+  </h2>
+  <div class="card-container">
+    {#each inactionCategories as category, index}
+      <div class="card w-96 bg-base-100 shadow-xl">
+        <figure class="px-10 pt-10">
+          <img
+            src={`/src/lib/images/${inactionImage[index]}`}
+            alt={category}
+            class="rounded-xl"
+          />
+        </figure>
+        <div class="card-body items-center text-center">
+          <h2 class="card-title">{category}</h2>
+          <p>{inactionDetails[index]}</p>
+          <div class="w-1/5 mx-auto flex justify-center items-center">
+            {#each [1, 2, 3, 4, 5] as num (num)}
+              <label class="inline-flex items-center">
+                <input
+                  type="radio"
+                  class="form-radio ml-2"
+                  value={num}
+                  bind:group={inactionPoints[index]}
+                />
+                <span class="ml-2">{num}</span>
+              </label>
+            {/each}
+          </div>
+          <input
+            type="text"
+            placeholder="メモ"
+            bind:value={inactionNotes[index]}
+            maxlength="30"
+            class="border rounded ml-2 w-4/5 p-2"
+          />
+        </div>
       </div>
-      <div class="w-1/5 mx-auto flex justify-center items-center">
-        {#each [1, 2, 3, 4, 5] as num (num)}
-          <label class="inline-flex items-center">
-            <input
-              type="radio"
-              class="form-radio ml-2"
-              value={num}
-              bind:group={inactionPoints[index]}
-            />
-            <span class="ml-2">{num}</span>
-          </label>
-        {/each}
-      </div>
-
-      <input
-        type="text"
-        placeholder="メモ"
-        bind:value={inactionNotes[index]}
-        maxlength="30"
-        class="border rounded ml-2 w-1/3 p-2"
-      />
-    </div>
-  {/each}
+    {/each}
+  </div>
 </div>
 
 <div class="flex my-4 justify-center align-middle text-center">
@@ -232,3 +271,15 @@
     比較結果を見る
   </button>
 </div>
+
+<style>
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .card {
+    width: calc(33.333% - 10px);
+    margin-bottom: 1rem;
+  }
+</style>

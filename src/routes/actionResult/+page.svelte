@@ -180,13 +180,13 @@
 <div class="justify-center">
   <div class="w-1/2 m-0">
     <!-- 件名、有効期限 -->
-    <div>
-      <h4 class="text-lg mb-4 mt-8 relative underline-custom">
+    <div class="flex-col">
+      <p class="text-lg mb-4 mt-8">
+        比較日 : {new Date().toLocaleDateString()}
+      </p>
+      <p class="text-lg mb-4 font-bold">
         件名 : {$issue}
-      </h4>
-      <h4 class="text-lg mb-4 relative underline-custom">
-        作成日時 : {new Date().toLocaleDateString()}
-      </h4>
+      </p>
     </div>
 
     <!--　推奨行動 -->
@@ -207,7 +207,7 @@
           />
           {#each categoryLabelCoordinates as coordinate, i}
             <text
-              x={i < 3 ? coordinate.x + -10 : coordinate.x - 60}
+              x={i < 3 ? coordinate.x + -30 : coordinate.x - 60}
               y={i < 3 ? coordinate.y + 20 : coordinate.y - 20}
               font-family="Verdana"
               font-size="14"
