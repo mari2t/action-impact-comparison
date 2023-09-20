@@ -1,5 +1,5 @@
 <script>
-  import logo from "$lib/images/icon.png";
+  import logo from "$lib/images/icon.jpg";
   import github from "$lib/images/github.svg";
 </script>
 
