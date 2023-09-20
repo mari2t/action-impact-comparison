@@ -161,7 +161,7 @@
   }
 </script>
 
-<div class="container mx-auto p-4 w-3/5 bg-gray-200 my-8">
+<div class="container mx-auto p-4 w-1/2 bg-gray-200 my-8">
   <div class="my-4 flex">
     <div class="w-1/5">
       <label for="issue" class="text-3xl mb-2 font-bold">悩み: </label>
@@ -177,18 +177,16 @@
   </div>
 </div>
 
-<div class="container mx-auto p-4 w-3/5 bg-blue-100 mb-8">
-  <h2 class="text-2xl mb-4 font-bold text-center">
-    行動することで得られるメリット
-  </h2>
-  <div class="card-container">
+<div class="container mx-auto p-4 w-1/2 bg-blue-100 mb-8">
+  <h2 class="text-2xl mb-4 font-bold text-center">行動する得られるメリット</h2>
+  <div class="">
     {#each actionCategories as category, index}
-      <div class="card w-96 bg-base-100 shadow-xl">
-        <figure class="px-10 pt-10">
+      <div class="card lg:card-side bg-base-100 shadow-xl m-4">
+        <figure>
           <img
             src={`/src/lib/images/${actionImage[index]}`}
             alt={category}
-            class="rounded-xl"
+            class="rounded-xl p-4 w-2/3"
           />
         </figure>
         <div class="card-body items-center text-center">
@@ -220,18 +218,18 @@
   </div>
 </div>
 
-<div class="container mx-auto p-4 w-3/5 bg-red-100">
+<div class="container mx-auto p-4 w-1/2 bg-red-100">
   <h2 class="text-2xl mb-4 font-bold text-center">
     行動しないことで得られるメリット
   </h2>
-  <div class="card-container">
+  <div class="">
     {#each inactionCategories as category, index}
-      <div class="card w-96 bg-base-100 shadow-xl">
-        <figure class="px-10 pt-10">
+      <div class="card lg:card-side bg-base-100 shadow-xl m-4">
+        <figure>
           <img
             src={`/src/lib/images/${inactionImage[index]}`}
             alt={category}
-            class="rounded-xl"
+            class="rounded-xl p-4 w-2/3"
           />
         </figure>
         <div class="card-body items-center text-center">
@@ -271,15 +269,3 @@
     比較結果を見る
   </button>
 </div>
-
-<style>
-  .card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  .card {
-    width: calc(33.333% - 10px);
-    margin-bottom: 1rem;
-  }
-</style>
