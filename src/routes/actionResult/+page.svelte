@@ -179,19 +179,15 @@
 
 <div class="justify-center">
   <div class="w-1/2 m-0">
-    <!-- 件名、有効期限 -->
-    <div class="flex-col">
-      <p class="text-lg mb-4 mt-8">
+    <!--　推奨行動 -->
+    <div class="w-1-2 flex-col">
+      <p class="text-lg text-center mb-8 mt-4">
         比較日 : {new Date().toLocaleDateString()}
       </p>
-      <p class="text-lg mb-4 font-bold">
+      <p class=" text-center text-xl mb-4 font-bold">
         件名 : {$issue}
       </p>
-    </div>
-
-    <!--　推奨行動 -->
-    <div class="mt-8 justify-center">
-      <h3 class="text-xl font-semibold mb-2 underline-custom my-8">
+      <h3 class=" text-center text-xl font-semibold mb-2 underline-custom my-4">
         比較結果 : {recommendedAction}
       </h3>
     </div>

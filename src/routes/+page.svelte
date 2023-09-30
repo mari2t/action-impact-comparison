@@ -82,6 +82,32 @@
   actionPoints = initializeScores(actionCategories.length);
   inactionPoints = initializeScores(inactionCategories.length);
 
+  // 初期化処理
+  actionScores.subscribe(($actionScores) => {
+    if ($actionScores.length > 0) {
+      $actionScores.forEach((scoreInfo, index) => {
+        if (scoreInfo.points !== null) {
+          actionPoints[index] = scoreInfo.points;
+        }
+        if (scoreInfo.note !== null) {
+          actionNotes[index] = scoreInfo.note;
+        }
+      });
+    }
+  });
+  inactionScores.subscribe(($inactionScores) => {
+    if ($inactionScores.length > 0) {
+      $inactionScores.forEach((scoreInfo, index) => {
+        if (scoreInfo.points !== null) {
+          inactionPoints[index] = scoreInfo.points;
+        }
+        if (scoreInfo.note !== null) {
+          inactionNotes[index] = scoreInfo.note;
+        }
+      });
+    }
+  });
+
   // データを保存
   function updateScore(
     action: string,
