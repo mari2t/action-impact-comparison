@@ -203,7 +203,7 @@
   </div>
 </div>
 
-<div class="container mx-auto p-4 w-1/2 bg-blue-100 mb-8">
+<div class="container mx-auto p-4 w-1/2 bg-teal-100 mb-8">
   <h2 class="text-2xl mb-4 font-bold text-center">
     行動することで得られるメリット
   </h2>

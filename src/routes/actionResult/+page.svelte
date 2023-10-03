@@ -2,12 +2,6 @@
   import { issue, actionScores, inactionScores } from "../store";
   import { goto } from "$app/navigation";
 
-  interface ScoreInfo {
-    category: string;
-    points: number;
-    note: string;
-  }
-
   type Score = {
     points: number | null;
   };
@@ -78,7 +72,7 @@
       $inactionScores,
       150,
       150,
-      inactionCoordinates // このように渡す
+      inactionCoordinates
     );
   }
 
@@ -165,7 +159,6 @@
 </script>
 
 <div class="container mx-auto pt-10 px-36">
-  <!-- 見積書ヘッダー -->
   <div class="flex justify-center w-full">
     <div class="w-1/6">
       <h2
