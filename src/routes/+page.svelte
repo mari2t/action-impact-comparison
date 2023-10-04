@@ -182,6 +182,11 @@
   }
 
   function showResult() {
+    // issueが空の場合、アラートを表示
+    if (!$issue || $issue.trim() === "") {
+      alert("悩みを入力してください");
+      return;
+    }
     saveData();
     goto("/actionResult");
   }
