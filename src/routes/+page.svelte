@@ -1,10 +1,16 @@
 <script lang="ts">
-  import { issue, actionScores, inactionScores } from "./store";
+  import {
+    issue,
+    returned,
+    actionScores,
+    inactionScores,
+    setReturned,
+  } from "./store";
   import { goto } from "$app/navigation";
 
   interface ScoreInfo {
-    action?: string; // ここをオプショナルにするか、必ず指定するようにします。
-    category: string | null; // ここを string に変更
+    action?: string;
+    category: string | null;
     points: number | null;
     note: string | null;
   }
@@ -47,7 +53,6 @@
     "🤝人間関係",
     "🏠環境の安定性",
     "🏃エネルギー",
-
     "😀変わらない自分",
   ];
 
@@ -70,7 +75,20 @@
   ];
 
   // 初期値の設定
-  const initializeScores = (numOfCategories: number): number[] => {
+  const initializeScores = (
+    numOfCategories: number,
+    action: "action" | "inaction"
+  ): number[] => {
+    if (returned) {
+      // 他の画面から戻ってきた場合は既存のスコアの配列を返す
+      if (action === "action" && $actionScores.length > 0) {
+        return $actionScores.map((score) => score.points || 0);
+      } else if (action === "inaction" && $inactionScores.length > 0) {
+        return $inactionScores.map((score) => score.points || 0);
+      }
+      setReturned(false);
+    }
+
     const arr: number[] = [];
     for (let i = 0; i < numOfCategories; i++) {
       arr.push(3); // 初期値は3に設定
@@ -79,8 +97,8 @@
   };
 
   // 初期値の適用
-  actionPoints = initializeScores(actionCategories.length);
-  inactionPoints = initializeScores(inactionCategories.length);
+  actionPoints = initializeScores(actionCategories.length, "action");
+  inactionPoints = initializeScores(inactionCategories.length, "inaction");
 
   // 初期化処理
   actionScores.subscribe(($actionScores) => {
@@ -171,6 +189,7 @@
     }
   }
 
+  // 各ポイント等保存
   function saveData() {
     actionPoints.forEach((point, index) => {
       updateScore("action", index, point, actionNotes[index]);
@@ -181,8 +200,8 @@
     });
   }
 
+  // 結果画面遷移
   function showResult() {
-    // issueが空の場合、アラートを表示
     if (!$issue || $issue.trim() === "") {
       alert("悩みを入力してください");
       return;

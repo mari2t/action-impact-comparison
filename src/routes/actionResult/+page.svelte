@@ -1,5 +1,11 @@
 <script lang="ts">
-  import { issue, actionScores, inactionScores } from "../store";
+  import {
+    issue,
+    returned,
+    actionScores,
+    inactionScores,
+    setReturned,
+  } from "../store";
   import { goto } from "$app/navigation";
 
   type Score = {
@@ -154,6 +160,11 @@
 
   //　ページ遷移
   function showComparison() {
+    setReturned(true);
+    goto("/");
+  }
+
+  function startOver() {
     goto("/");
   }
 </script>
@@ -188,7 +199,7 @@
     <!--　ヘキサゴン -->
     <div class="justify-center my-8">
       <div>
-        <h3 class="text-center font-bold">行動する場合</h3>
+        <h3 class="text-center font-bold">行動する場合のメリット</h3>
         <svg height="400" width="400">
           <polygon
             points={actionHexagonPoints}
@@ -214,7 +225,7 @@
       </div>
 
       <div>
-        <h3 class="text-center font-bold">行動しない場合</h3>
+        <h3 class="text-center font-bold">行動しない場合のメリット</h3>
         <svg height="400" width="400">
           <polygon
             points={inactionHexagonPoints}
@@ -300,6 +311,12 @@
     on:click={showComparison}
   >
     比較画面に戻る
+  </button>
+  <button
+    class="bg-green-500 hover:bg-green-700 text-white p-4 mx-2 rounded"
+    on:click={startOver}
+  >
+    最初から考える
   </button>
 </div>
 
