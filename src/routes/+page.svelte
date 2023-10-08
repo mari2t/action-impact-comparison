@@ -227,131 +227,92 @@
   </div>
 </div>
 
-<div class="flex">
-  <div class="container mx-auto p-4 bg-teal-100 mb-8">
-    <h2 class="text-2xl mb-4 font-bold text-center">
-      行動することで得られるメリット
-    </h2>
-    <div class="">
-      {#each actionCategories as category, index}
-        <div class="card lg:card-side bg-base-100 shadow-xl m-4">
-          <figure>
-            <img
-              src={`/src/lib/images/${actionImage[index]}`}
-              alt={category}
-              class="rounded-xl p-4 w-2/3"
-            />
-          </figure>
-          <div class="card-body items-center text-center">
-            <h2 class="card-title">{category}</h2>
-            <p>{actionDetails[index]}</p>
-            <div class="w-1/5 mx-auto flex justify-center items-center">
-              {#each [1, 2, 3, 4, 5] as num (num)}
-                <label class="inline-flex items-center">
-                  <input
-                    type="radio"
-                    class="form-radio ml-2"
-                    value={num}
-                    bind:group={actionPoints[index]}
-                  />
-                  <span class="ml-2">{num}</span>
-                </label>
-              {/each}
+<div class="flex justify-center w-full mt-4">
+  <div class="flex w-4/5 justify-center align-middle">
+    <div class="container mx-4 p-4 bg-teal-100 mb-8">
+      <h2 class="text-2xl mb-4 font-bold text-center">
+        行動することで得られるメリット
+      </h2>
+      <div class="">
+        {#each actionCategories as category, index}
+          <div class="card lg:card-side bg-base-100 shadow-xl m-4">
+            <figure>
+              <img
+                src={`/src/lib/images/${actionImage[index]}`}
+                alt={category}
+                class="rounded-xl p-4 w-2/3"
+              />
+            </figure>
+            <div class="card-body items-center text-center">
+              <h2 class="card-title">{category}</h2>
+              <p>{actionDetails[index]}</p>
+              <div class="w-1/5 mx-auto flex justify-center items-center">
+                {#each [1, 2, 3, 4, 5] as num (num)}
+                  <label class="inline-flex items-center">
+                    <input
+                      type="radio"
+                      class="form-radio ml-2"
+                      value={num}
+                      bind:group={actionPoints[index]}
+                    />
+                    <span class="ml-2">{num}</span>
+                  </label>
+                {/each}
+              </div>
+              <input
+                type="text"
+                placeholder="メモ"
+                bind:value={actionNotes[index]}
+                maxlength="30"
+                class="border rounded ml-2 w-4/5 p-2"
+              />
             </div>
-            <input
-              type="text"
-              placeholder="メモ"
-              bind:value={actionNotes[index]}
-              maxlength="30"
-              class="border rounded ml-2 w-4/5 p-2"
-            />
           </div>
-        </div>
-      {/each}
-    </div>
-    <h2 class="text-2xl mb-4 font-bold text-center">
-      行動しないことで得られるメリット
-    </h2>
-    <div class="">
-      {#each inactionCategories as category, index}
-        <div class="card lg:card-side bg-base-100 shadow-xl m-4">
-          <figure>
-            <img
-              src={`/src/lib/images/${inactionImage[index]}`}
-              alt={category}
-              class="rounded-xl p-4 w-2/3"
-            />
-          </figure>
-          <div class="card-body items-center text-center">
-            <h2 class="card-title">{category}</h2>
-            <p>{inactionDetails[index]}</p>
-            <div class="w-1/5 mx-auto flex justify-center items-center">
-              {#each [1, 2, 3, 4, 5] as num (num)}
-                <label class="inline-flex items-center">
-                  <input
-                    type="radio"
-                    class="form-radio ml-2"
-                    value={num}
-                    bind:group={inactionPoints[index]}
-                  />
-                  <span class="ml-2">{num}</span>
-                </label>
-              {/each}
-            </div>
-            <input
-              type="text"
-              placeholder="メモ"
-              bind:value={inactionNotes[index]}
-              maxlength="30"
-              class="border rounded ml-2 w-4/5 p-2"
-            />
-          </div>
-        </div>
-      {/each}
-    </div>
-  </div>
-</div>
-
-<div class="container mx-auto p-4 w-1/2 bg-red-100">
-  <h2 class="text-2xl mb-4 font-bold text-center">
-    行動しないことで得られるメリット
-  </h2>
-  <div class="">
-    {#each inactionCategories as category, index}
-      <div class="card lg:card-side bg-base-100 shadow-xl m-4">
-        <figure>
-          <img
-            src={`/src/lib/images/${inactionImage[index]}`}
-            alt={category}
-            class="rounded-xl p-4 w-2/3"
-          />
-        </figure>
-        <div class="card-body items-center text-center">
-          <h2 class="card-title">{category}</h2>
-          <p>{inactionDetails[index]}</p>
-          <div class="w-1/5 mx-auto flex justify-center items-center">
-            {#each [1, 2, 3, 4, 5] as num (num)}
-              <label class="inline-flex items-center">
-                <input
-                  type="radio"
-                  class="form-radio ml-2"
-                  value={num}
-                  bind:group={inactionPoints[index]}
-                />
-                <span class="ml-2">{num}</span>
-              </label>
-            {/each}
-          </div>
-          <input
-            type="text"
-            placeholder="メモ"
-            bind:value={inactionNotes[index]}
-            maxlength="30"
-            class="border rounded ml-2 w-4/5 p-2"
-          />
-        </div>
+        {/each}
       </div>
-    {/each}
+    </div>
+    <div class="container mx-auto p-4 bg-red-100 mb-8">
+      <h2 class="text-2xl mb-4 font-bold text-center">
+        行動しないことで得られるメリット
+      </h2>
+      <div class="">
+        {#each inactionCategories as category, index}
+          <div class="card lg:card-side bg-base-100 shadow-xl m-4">
+            <figure>
+              <img
+                src={`/src/lib/images/${inactionImage[index]}`}
+                alt={category}
+                class="rounded-xl p-4 w-2/3"
+              />
+            </figure>
+            <div class="card-body items-center text-center">
+              <h2 class="card-title">{category}</h2>
+              <p>{inactionDetails[index]}</p>
+              <div class="w-1/5 mx-auto flex justify-center items-center">
+                {#each [1, 2, 3, 4, 5] as num (num)}
+                  <label class="inline-flex items-center">
+                    <input
+                      type="radio"
+                      class="form-radio ml-2"
+                      value={num}
+                      bind:group={inactionPoints[index]}
+                    />
+                    <span class="ml-2">{num}</span>
+                  </label>
+                {/each}
+              </div>
+              <input
+                type="text"
+                placeholder="メモ"
+                bind:value={inactionNotes[index]}
+                maxlength="30"
+                class="border rounded ml-2 w-4/5 p-2"
+              />
+            </div>
+          </div>
+        {/each}
+      </div>
+    </div>
   </div>
 </div>
 
@@ -363,3 +324,9 @@
     比較結果を見る
   </button>
 </div>
+
+<style>
+  .align-middle {
+    align-items: center;
+  }
+</style>
