@@ -21,20 +21,20 @@
   let inactionPoints: number[] = [];
   let inactionNotes: string[] = [];
 
-  const actionCategories = [
-    "🚀能力",
-    "💴経済的状況",
-    "🫶交友関係",
-    "💪健康",
-    "🎵楽しみ",
-  ];
+  const actionCategories = ["🚀能力", "💴経済的状況", "🫶交友関係", "💪健康"];
 
   const actionDetails = [
-    "スキルを手に入れることできる？",
-    "貯金や資産が増える？",
-    "人間関係が広がる？",
-    "体調や精神面に対して良い？",
-    "楽しさや面白さを体験できる？",
+    "スキル習得を習得できる",
+    "貯金や資産が増える",
+    "人間関係が広がる",
+    "体調や精神面が良くなる",
+  ];
+
+  const inactionDetails = [
+    "習得の時間を他に使う",
+    "お金を使わずセーブする",
+    "今の人間関係を維持する",
+    "行動によるストレスが無い",
   ];
 
   const actionImage = [
@@ -42,14 +42,12 @@
     "action-money.jpg",
     "action-friendship.jpg",
     "action-health.jpg",
-    "action-joy.jpg",
   ];
 
   const inactionImage = [
     "inaction-clock.jpg",
     "inaction-money.jpg",
     "inaction-friendship.jpg",
-    "inaction-circumstance.jpg",
     "inaction-myself.jpg",
   ];
 
@@ -83,7 +81,7 @@
 <div class="flex justify-center w-full mt-4">
   <div class="flex w-2/3 justify-center align-middle">
     <div class="container mx-4 p-4 bg-gradient-teal200-white-red200 mb-8">
-      <h2 class="text-2xl mb-4 font-bold text-center">行動を比較する</h2>
+      <h2 class="text-2xl mb-4 font-bold text-center">どっちが魅力的？</h2>
       <div class="">
         {#each actionCategories as category, index}
           <div class="card lg:card-side bg-base-100 shadow-xl m-4">
@@ -96,9 +94,13 @@
             </figure>
             <div class="card-body items-center text-center">
               <h2 class="card-title">{category}</h2>
-              <p>{actionDetails[index]}</p>
-              <div class=" mx-auto flex justify-center items-center">
-                <label>
+              <p>行動するメリット：　{actionDetails[index]}　など…</p>
+              <p>行動しないメリット：　{inactionDetails[index]}　など…</p>
+              <div class="flex justify-center items-center">
+                <label
+                  class="mx-2
+                "
+                >
                   <input
                     type="radio"
                     bind:group={$selectedActions[index]}
@@ -107,16 +109,22 @@
                   行動する
                 </label>
 
-                <label>
+                <label
+                  class="mx-2
+                "
+                >
                   <input
                     type="radio"
                     bind:group={$selectedActions[index]}
-                    value="考え中"
+                    value="どちらでもない"
                   />
-                  考え中
+                  どちらでもない
                 </label>
 
-                <label>
+                <label
+                  class="mx-2
+                "
+                >
                   <input
                     type="radio"
                     bind:group={$selectedActions[index]}

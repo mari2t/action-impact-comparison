@@ -12,7 +12,7 @@ export const inactionScores = writable<ScoreInfo[]>([]);
 export const returned = writable(false); // boolean型のwritableストアに変更
 // 各項目の選択状態を保持するためのストア
 export const selectedActions = writable<{
-  [key: string]: "行動する" | "考え中" | "行動しない";
+  [key: string]: "行動する" | "どちらでもない" | "行動しない";
 }>({});
 
 export function setReturned(value: boolean) {
