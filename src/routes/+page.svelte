@@ -18,13 +18,11 @@
   // 一時的な保存変数
   let actionPoints: number[] = [];
   let actionNotes: string[] = [];
-  let inactionPoints: number[] = [];
-  let inactionNotes: string[] = [];
 
   const actionCategories = ["🚀能力", "💴経済的状況", "🫶交友関係", "💪健康"];
 
   const actionDetails = [
-    "スキル習得を習得できる",
+    "スキルを習得できる",
     "貯金や資産が増える",
     "人間関係が広がる",
     "体調や精神面が良くなる",
@@ -51,13 +49,44 @@
     "inaction-myself.jpg",
   ];
 
+  function updateAction(
+    index: number,
+    action: "行動する" | "どちらでもない" | "行動しない"
+  ) {
+    let updatedActions = $selectedActions.slice();
+    updatedActions[index] = {
+      ...updatedActions[index],
+      action,
+    };
+    selectedActions.set(updatedActions);
+  }
+
+  function updateMemo(index: number, memo: string) {
+    let updatedActions = $selectedActions.slice();
+    updatedActions[index] = {
+      ...updatedActions[index],
+      memo,
+    };
+    selectedActions.set(updatedActions);
+  }
+
+  // 行動の選択とメモをstoreに保存
+  function saveSelectedActionsAndNotes() {
+    selectedActions.set($selectedActions);
+    actionNotes.forEach((note, index) => {
+      actionNotes[index] = note;
+    });
+    console.log(selectedActions);
+  }
+
   // 結果画面遷移
   function showResult() {
     if (!$issue || $issue.trim() === "") {
       alert("悩みを入力してください");
       return;
     }
-
+    // 行動の選択とメモをstoreに保存
+    saveSelectedActionsAndNotes();
     goto("/actionResult");
   }
 </script>
@@ -81,7 +110,9 @@
 <div class="flex justify-center w-full mt-4">
   <div class="flex w-2/3 justify-center align-middle">
     <div class="container mx-4 p-4 bg-gradient-teal200-white-red200 mb-8">
-      <h2 class="text-2xl mb-4 font-bold text-center">どっちが魅力的？</h2>
+      <h2 class="text-2xl mb-4 font-bold text-center">
+        行動する？行動しない？どちらの方が魅力的？
+      </h2>
       <div class="">
         {#each actionCategories as category, index}
           <div class="card lg:card-side bg-base-100 shadow-xl m-4">
@@ -93,42 +124,34 @@
               />
             </figure>
             <div class="card-body items-center text-center">
-              <h2 class="card-title">{category}</h2>
+              <h2 class="card-title">{category}　に対する影響</h2>
               <p>行動するメリット：　{actionDetails[index]}　など…</p>
               <p>行動しないメリット：　{inactionDetails[index]}　など…</p>
               <div class="flex justify-center items-center">
-                <label
-                  class="mx-2
-                "
-                >
+                <label class="mx-2">
                   <input
                     type="radio"
                     bind:group={$selectedActions[index]}
                     value="行動する"
+                    on:change={() => updateAction(index, "行動する")}
                   />
                   行動する
                 </label>
-
-                <label
-                  class="mx-2
-                "
-                >
+                <label class="mx-2">
                   <input
                     type="radio"
                     bind:group={$selectedActions[index]}
                     value="どちらでもない"
+                    on:change={() => updateAction(index, "どちらでもない")}
                   />
                   どちらでもない
                 </label>
-
-                <label
-                  class="mx-2
-                "
-                >
+                <label class="mx-2">
                   <input
                     type="radio"
                     bind:group={$selectedActions[index]}
                     value="行動しない"
+                    on:change={() => updateAction(index, "行動しない")}
                   />
                   行動しない
                 </label>
@@ -137,8 +160,6 @@
                 type="text"
                 placeholder="メモ"
                 bind:value={actionNotes[index]}
-                maxlength="30"
-                class="border rounded ml-2 w-4/5 p-2"
               />
             </div>
             <figure>

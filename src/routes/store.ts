@@ -10,10 +10,13 @@ export const issue = writable("");
 export const actionScores = writable<ScoreInfo[]>([]);
 export const inactionScores = writable<ScoreInfo[]>([]);
 export const returned = writable(false); // boolean型のwritableストアに変更
-// 各項目の選択状態を保持するためのストア
-export const selectedActions = writable<{
-  [key: string]: "行動する" | "どちらでもない" | "行動しない";
-}>({});
+export const selectedActions = writable<
+  Array<{
+    category: string;
+    action: "行動する" | "どちらでもない" | "行動しない";
+    memo: string;
+  }>
+>([]);
 
 export function setReturned(value: boolean) {
   returned.set(value);

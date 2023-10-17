@@ -22,7 +22,7 @@
 
   //　ページ遷移
   function showComparison() {
-    returned;
+    returned.set(true); // 1の代わりにtrueをセット
     goto("/");
   }
 
@@ -59,15 +59,16 @@
       <table>
         <thead>
           <tr>
-            <th>キー</th>
+            <th>項目</th>
             <th>行動</th>
           </tr>
         </thead>
         <tbody>
-          {#each Object.entries($selectedActions) as [key, value]}
+          {#each $selectedActions as value, index}
             <tr>
-              <td>{key}</td>
-              <td>{value}</td>
+              <td>{value.category}</td>
+              <td>{value.action}</td>
+              <td>{value.memo}</td>
             </tr>
           {/each}
         </tbody>
