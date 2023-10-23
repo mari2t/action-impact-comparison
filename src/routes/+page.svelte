@@ -1,22 +1,8 @@
 <script lang="ts">
-  import {
-    issue,
-    returned,
-    actionScores,
-    inactionScores,
-    setReturned,
-    selectedActions,
-  } from "./store";
+  import { issue, returned, setReturned, selectedActions } from "./store";
   import { goto } from "$app/navigation";
 
-  interface ScoreInfo {
-    action?: string;
-    category: string | null;
-    points: number | null;
-    note: string | null;
-  }
   // 一時的な保存変数
-  let actionPoints: number[] = [];
   let actionNotes: string[] = [];
 
   const actionCategories = ["🚀能力", "💴経済的状況", "🫶交友関係", "💪健康"];
