@@ -1,11 +1,10 @@
 <script lang="ts">
-  import { issue, returned, setReturned, selectedActions } from "./store";
+  import { issue, selectedActions, actionCategories } from "./store";
+  import { onMount } from "svelte";
   import { goto } from "$app/navigation";
 
   // 一時的な保存変数
   let actionNotes: string[] = [];
-
-  const actionCategories = ["🚀能力", "💴経済的状況", "🫶交友関係", "💪健康"];
 
   const actionDetails = [
     "スキルを習得できる",
@@ -35,25 +34,25 @@
     "inaction-myself.jpg",
   ];
 
+  onMount(() => {
+    selectedActions.set(
+      actionCategories.map((category) => ({
+        category,
+        action: "どちらでもない",
+        memo: "",
+      }))
+    );
+  });
+
   function updateAction(
     index: number,
     action: "行動する" | "どちらでもない" | "行動しない"
   ) {
-    let updatedActions = $selectedActions.slice();
-    updatedActions[index] = {
-      ...updatedActions[index],
-      action,
-    };
-    selectedActions.set(updatedActions);
-  }
-
-  function updateMemo(index: number, memo: string) {
-    let updatedActions = $selectedActions.slice();
-    updatedActions[index] = {
-      ...updatedActions[index],
-      memo,
-    };
-    selectedActions.set(updatedActions);
+    selectedActions.update((currentActions) => {
+      const updatedActions = [...currentActions];
+      updatedActions[index] = { ...updatedActions[index], action };
+      return updatedActions;
+    });
   }
 
   // 行動の選択とメモをstoreに保存
@@ -117,8 +116,8 @@
                 <label class="mx-2">
                   <input
                     type="radio"
-                    bind:group={$selectedActions[index]}
                     value="行動する"
+                    checked={$selectedActions[index].action === "行動する"}
                     on:change={() => updateAction(index, "行動する")}
                   />
                   行動する
@@ -126,8 +125,9 @@
                 <label class="mx-2">
                   <input
                     type="radio"
-                    bind:group={$selectedActions[index]}
                     value="どちらでもない"
+                    checked={$selectedActions[index].action ===
+                      "どちらでもない"}
                     on:change={() => updateAction(index, "どちらでもない")}
                   />
                   どちらでもない
@@ -135,8 +135,8 @@
                 <label class="mx-2">
                   <input
                     type="radio"
-                    bind:group={$selectedActions[index]}
                     value="行動しない"
+                    checked={$selectedActions[index].action === "行動しない"}
                     on:change={() => updateAction(index, "行動しない")}
                   />
                   行動しない
