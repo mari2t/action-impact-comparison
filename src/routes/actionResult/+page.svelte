@@ -2,10 +2,6 @@
   import { issue, returned, selectedActions } from "../store";
   import { goto } from "$app/navigation";
 
-  type Score = {
-    points: number | null;
-  };
-
   let actionSum = 0;
   let inactionSum = 0;
 
@@ -61,6 +57,7 @@
           <tr>
             <th>項目</th>
             <th>行動</th>
+            <th>メモ</th>
           </tr>
         </thead>
         <tbody>

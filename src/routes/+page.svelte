@@ -42,6 +42,9 @@
         memo: "",
       }))
     );
+
+    // actionNotes を初期化
+    actionNotes = new Array(actionCategories.length).fill("");
   });
 
   function updateAction(
@@ -57,11 +60,13 @@
 
   // 行動の選択とメモをstoreに保存
   function saveSelectedActionsAndNotes() {
-    selectedActions.set($selectedActions);
-    actionNotes.forEach((note, index) => {
-      actionNotes[index] = note;
+    selectedActions.update((currentActions) => {
+      return currentActions.map((action, index) => ({
+        ...action,
+        memo: actionNotes[index],
+      }));
     });
-    console.log(selectedActions);
+    console.log($selectedActions);
   }
 
   // 結果画面遷移
