@@ -18,11 +18,12 @@
 
   //　ページ遷移
   function showComparison() {
-    returned.set(true); // 1の代わりにtrueをセット
+    returned.set(true);
     goto("/");
   }
 
   function startOver() {
+    issue.set("");
     goto("/");
   }
 </script>

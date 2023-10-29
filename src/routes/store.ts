@@ -14,7 +14,7 @@ export const selectedActions = writable(
   actionCategories.map((category) => ({
     category,
     action: "どちらでもない", // 初期値。任意で変更可能
-    memo: "-",
+    memo: "",
   }))
 );
 

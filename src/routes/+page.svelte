@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { issue, selectedActions, actionCategories } from "./store";
+  import { issue, returned, selectedActions, actionCategories } from "./store";
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
 
@@ -35,16 +35,23 @@
   ];
 
   onMount(() => {
-    selectedActions.set(
-      actionCategories.map((category) => ({
-        category,
-        action: "どちらでもない",
-        memo: "",
-      }))
-    );
+    if ($returned === false) {
+      selectedActions.set(
+        actionCategories.map((category) => ({
+          category,
+          action: "どちらでもない",
+          memo: "",
+        }))
+      );
 
-    // actionNotes を初期化
-    actionNotes = new Array(actionCategories.length).fill("");
+      // actionNotes を初期化
+      actionNotes = new Array(actionCategories.length).fill("");
+    } else {
+      // returned が true の場合、保存されたメモ情報を actionNotes に設定
+      actionNotes = $selectedActions.map((action) => action.memo);
+    }
+
+    returned.set(false);
   });
 
   function updateAction(
