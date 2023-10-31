@@ -28,66 +28,60 @@
   }
 </script>
 
-<div class="container mx-auto pt-10 px-36">
-  <div class="flex justify-center w-full">
-    <div class="w-1/6">
-      <h2
-        class="text-2xl font-bold bg-gray-700 text-white p-2 rounded-sm text-center"
-      >
-        比較結果
-      </h2>
+<div class="container mx-auto pt-12">
+  <div class="flex justify-center w-full mb-8">
+    <div class="bg-gray-700 text-white p-4 rounded">
+      <h2 class="text-2xl font-bold text-center">比較結果</h2>
     </div>
   </div>
-</div>
 
-<div class="justify-center">
-  <div class="w-1/2 m-0">
-    <!--　推奨行動 -->
-    <div class="w-1-2 flex-col">
-      <p class="text-lg text-center mb-8 mt-4">
-        比較日 : {new Date().toLocaleDateString()}
-      </p>
-      <p class=" text-center text-xl mb-4 font-bold">
+  <div class="flex justify-center">
+    <div class="bg-white rounded-lg shadow-lg w-3/4 p-6">
+      <p class="text-center text-xl mb-4 font-semibold">
         件名 : {$issue}
       </p>
-      <h3 class=" text-center text-xl font-semibold mb-2 underline-custom my-4">
+      <h3 class="text-center text-xl font-semibold mb-4 text-blue-600">
         比較結果 : {recommendedAction}
       </h3>
-      <table>
+
+      <table class="min-w-full bg-white border border-gray-300">
         <thead>
-          <tr>
-            <th>項目</th>
-            <th>行動</th>
-            <th>メモ</th>
+          <tr class="bg-gray-200 text-gray-600 uppercase text-sm">
+            <th class="py-2 px-4 w-1/3">項目</th>
+            <th class="py-2 px-4 w-1/3">行動</th>
+            <th class="py-2 px-4 w-1/3">メモ</th>
           </tr>
         </thead>
         <tbody>
           {#each $selectedActions as value, index}
-            <tr>
-              <td>{value.category}</td>
-              <td>{value.action}</td>
-              <td>{value.memo}</td>
+            <tr class="text-gray-700">
+              <td class="py-2 px-4 border">{value.category}</td>
+              <td class="py-2 px-4 border">{value.action}</td>
+              <td class="py-2 px-4 border">{value.memo}</td>
             </tr>
           {/each}
         </tbody>
       </table>
     </div>
   </div>
-</div>
+  <p class="text-lg text-center m-4">
+    比較日 : {new Date().toLocaleDateString()}
+  </p>
 
-<div class="flex my-4 justify-center align-middle text-center">
-  <button
-    class="bg-blue-500 hover:bg-blue-700 text-white p-4 mx-2 rounded"
-    on:click={showComparison}
-  >
-    比較画面に戻る
-  </button>
-  <button
-    class="bg-green-500 hover:bg-green-700 text-white p-4 mx-2 rounded"
-    on:click={startOver}
-  >
-    最初から考える
-  </button>
+  <div class="flex my-8 justify-center">
+    <button
+      class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 mx-2 rounded"
+      on:click={showComparison}
+    >
+      比較画面に戻る
+    </button>
+    <button
+      class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 mx-2 rounded"
+      on:click={startOver}
+    >
+      最初から考える
+    </button>
+  </div>
 </div>
 
 <style>
