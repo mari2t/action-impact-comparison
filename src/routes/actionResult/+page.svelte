@@ -2,17 +2,29 @@
   import { issue, returned, selectedActions } from "../store";
   import { goto } from "$app/navigation";
 
-  let actionSum = 0;
-  let inactionSum = 0;
-
   let recommendedAction = "";
+
+  //　行動する、行動しない、どちらでもよいの回数をカウント
   $: {
-    if (actionSum > inactionSum) {
-      recommendedAction = "行動したほうが良い";
-    } else if (actionSum < inactionSum) {
-      recommendedAction = "行動しないほうが良い";
+    let actionCount = 0;
+    let inactionCount = 0;
+
+    // $selectedActionsはリアクティブな変数なので、
+    // selectedActionsストアの値が変更された場合、このコードブロックが再実行されます。
+    $selectedActions.forEach(({ action }) => {
+      if (action === "行動する") {
+        actionCount++;
+      } else if (action === "行動しない") {
+        inactionCount++;
+      }
+    });
+
+    if (actionCount > inactionCount) {
+      recommendedAction = "行動する";
+    } else if (actionCount < inactionCount) {
+      recommendedAction = "行動しない";
     } else {
-      recommendedAction = "どちらでも良い";
+      recommendedAction = "行動してもしなくてもどちらでもよい";
     }
   }
 
@@ -48,7 +60,7 @@
         <thead>
           <tr class="bg-gray-200 text-gray-600 uppercase text-sm">
             <th class="py-2 px-4 w-1/3">項目</th>
-            <th class="py-2 px-4 w-1/3">行動</th>
+            <th class="py-2 px-4 w-1/3">行動する？しない？</th>
             <th class="py-2 px-4 w-1/3">メモ</th>
           </tr>
         </thead>
