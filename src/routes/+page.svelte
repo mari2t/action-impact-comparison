@@ -1,10 +1,19 @@
 <script lang="ts">
-  import { issue, returned, selectedActions, actionCategories } from "./store";
+  import {
+    issue,
+    returned,
+    actionCategories,
+    selectedActions,
+    extraCategories,
+    addCategory,
+    updateCategory,
+  } from "./store";
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
 
   // 一時的な保存変数
   let actionNotes: string[] = [];
+  let addActionCategories: string[] = [];
 
   const actionDetails = [
     "スキルを習得できる",
@@ -172,6 +181,58 @@
       </div>
     </div>
   </div>
+</div>
+
+{#each $extraCategories as category, index}
+  <div class="card lg:card-side bg-base-100 shadow-xl m-4">
+    <div class="card-body items-center text-center">
+      <h2 class="card-title">新しいカテゴリー</h2>
+      <input
+        type="text"
+        placeholder="カテゴリー名を入力"
+        bind:value={addActionCategories[index]}
+      />
+      <div class="flex justify-center items-center">
+        <label class="mx-2">
+          <input
+            type="radio"
+            value="行動する"
+            checked={$selectedActions[index]?.action === "行動する"}
+            on:change={() => updateAction(index, "行動する")}
+          />
+          行動する
+        </label>
+        <label class="mx-2">
+          <input
+            type="radio"
+            value="どちらでもない"
+            checked={$selectedActions[index]?.action === "どちらでもない"}
+            on:change={() => updateAction(index, "どちらでもない")}
+          />
+          どちらでもない
+        </label>
+        <label class="mx-2">
+          <input
+            type="radio"
+            value="行動しない"
+            checked={$selectedActions[index]?.action === "行動しない"}
+            on:change={() => updateAction(index, "行動しない")}
+          />
+          行動しない
+        </label>
+      </div>
+      <input type="text" placeholder="メモ" bind:value={actionNotes[index]} />
+    </div>
+  </div>
+{/each}
+
+<div class="flex my-4 justify-center align-middle text-center">
+  <button
+    class="bg-blue-500 hover:bg-blue-700 text-white p-4 mx-2 rounded"
+    on:click={addCategory}
+  >
+    項目を増やす
+  </button>
 </div>
 
 <div class="flex my-4 justify-center align-middle text-center">

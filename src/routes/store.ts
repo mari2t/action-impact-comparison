@@ -1,3 +1,4 @@
+// store.ts
 import { writable } from "svelte/store";
 
 export const issue = writable("");
@@ -20,4 +21,23 @@ export const selectedActions = writable(
 
 export function setReturned(value: boolean) {
   returned.set(value);
+}
+
+// 項目の増減を管理するストア
+export const extraCategories = writable<string[]>([]);
+
+// 項目を増やす関数
+export function addCategory() {
+  extraCategories.update((current) => {
+    return [...current, ""];
+  });
+}
+
+// 項目を更新する関数
+export function updateCategory(index: number, value: string) {
+  extraCategories.update((current) => {
+    const updated = [...current];
+    updated[index] = value;
+    return updated;
+  });
 }
