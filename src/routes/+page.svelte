@@ -2,31 +2,40 @@
   import {
     issue,
     returned,
-    actionCategories,
-    selectedActions,
-    extraCategories,
-    addCategory,
-    updateCategory,
+    actionScores,
+    inactionScores,
+    setReturned,
   } from "./store";
-  import { onMount } from "svelte";
   import { goto } from "$app/navigation";
 
+  interface ScoreInfo {
+    action?: string;
+    category: string | null;
+    points: number | null;
+    note: string | null;
+  }
   // 一時的な保存変数
+  let actionPoints: number[] = [];
   let actionNotes: string[] = [];
-  let addActionCategories: string[] = [];
+  let inactionPoints: number[] = [];
+  let inactionNotes: string[] = [];
 
-  const actionDetails = [
-    "スキルを習得できる",
-    "貯金や資産が増える",
-    "人間関係が広がる",
-    "体調や精神面が良くなる",
+  const actionCategories = [
+    "🚀スキルアップ",
+    "💴経済的状況",
+    "🫶交友関係",
+    "💪健康",
+    "👪家族関係",
+    "🎵興味・趣味",
   ];
 
-  const inactionDetails = [
-    "習得の時間を他に使う",
-    "お金を使わずセーブする",
-    "今の人間関係を維持する",
-    "行動によるストレスが無い",
+  const actionDetails = [
+    "スキルを手に入れることできる？",
+    "貯金や資産が増える？",
+    "人間関係が広がる？",
+    "体調や精神面に対して良い？",
+    "家族のコミュニケーションが良くなる？",
+    "楽しさや面白さを体験できる？",
   ];
 
   const actionImage = [
@@ -34,55 +43,161 @@
     "action-money.jpg",
     "action-friendship.jpg",
     "action-health.jpg",
+    "action-family.jpg",
+    "action-joy.jpg",
+  ];
+
+  const inactionCategories = [
+    "⌛時間",
+    "💰お金",
+    "🤝人間関係",
+    "🏠環境の安定性",
+    "🏃エネルギー",
+    "😀変わらない自分",
+  ];
+
+  const inactionDetails = [
+    "時間を他の重要なことに使える？",
+    "お金を他の用途に使える？",
+    "今の人間関係を維持できる？",
+    "変化によるストレスが無い？",
+    "エネルギーを節約できる？",
+    "自分自身が変わらなくてもいい？",
   ];
 
   const inactionImage = [
     "inaction-clock.jpg",
     "inaction-money.jpg",
     "inaction-friendship.jpg",
+    "inaction-circumstance.jpg",
+    "inaction-energy.jpg",
     "inaction-myself.jpg",
   ];
 
-  onMount(() => {
-    if ($returned === false) {
-      selectedActions.set(
-        actionCategories.map((category) => ({
-          category,
-          action: "どちらでもない",
-          memo: "",
-        }))
-      );
-
-      // actionNotes を初期化
-      actionNotes = new Array(actionCategories.length).fill("");
-    } else {
-      // returned が true の場合、保存されたメモ情報を actionNotes に設定
-      actionNotes = $selectedActions.map((action) => action.memo);
+  // 初期値の設定
+  const initializeScores = (
+    numOfCategories: number,
+    action: "action" | "inaction"
+  ): number[] => {
+    if (returned) {
+      // 他の画面から戻ってきた場合は既存のスコアの配列を返す
+      if (action === "action" && $actionScores.length > 0) {
+        return $actionScores.map((score) => score.points || 0);
+      } else if (action === "inaction" && $inactionScores.length > 0) {
+        return $inactionScores.map((score) => score.points || 0);
+      }
+      setReturned(false);
     }
 
-    returned.set(false);
+    const arr: number[] = [];
+    for (let i = 0; i < numOfCategories; i++) {
+      arr.push(3); // 初期値は3に設定
+    }
+    return arr;
+  };
+
+  // 初期値の適用
+  actionPoints = initializeScores(actionCategories.length, "action");
+  inactionPoints = initializeScores(inactionCategories.length, "inaction");
+
+  // 初期化処理
+  actionScores.subscribe(($actionScores) => {
+    if ($actionScores.length > 0) {
+      $actionScores.forEach((scoreInfo, index) => {
+        if (scoreInfo.points !== null) {
+          actionPoints[index] = scoreInfo.points;
+        }
+        if (scoreInfo.note !== null) {
+          actionNotes[index] = scoreInfo.note;
+        }
+      });
+    }
+  });
+  inactionScores.subscribe(($inactionScores) => {
+    if ($inactionScores.length > 0) {
+      $inactionScores.forEach((scoreInfo, index) => {
+        if (scoreInfo.points !== null) {
+          inactionPoints[index] = scoreInfo.points;
+        }
+        if (scoreInfo.note !== null) {
+          inactionNotes[index] = scoreInfo.note;
+        }
+      });
+    }
   });
 
-  function updateAction(
-    index: number,
-    action: "行動する" | "どちらでもない" | "行動しない"
+  // データを保存
+  function updateScore(
+    action: string,
+    categoryIndex: number,
+    points: number,
+    note: string
   ) {
-    selectedActions.update((currentActions) => {
-      const updatedActions = [...currentActions];
-      updatedActions[index] = { ...updatedActions[index], action };
-      return updatedActions;
-    });
+    // カテゴリの名前を取得
+    const categoryName =
+      action === "action"
+        ? actionCategories[categoryIndex]
+        : inactionCategories[categoryIndex];
+
+    if (action === "action") {
+      // actionのスコアを更新
+      actionScores.update((currentScores: ScoreInfo[]) => {
+        const updatedScores = Array.isArray(currentScores)
+          ? currentScores
+          : [currentScores];
+
+        if (!updatedScores[categoryIndex]) {
+          updatedScores[categoryIndex] = {
+            action,
+            category: categoryName,
+            points: null,
+            note: null,
+          };
+        }
+        updatedScores[categoryIndex] = {
+          action,
+          category: categoryName,
+          points,
+          note,
+        };
+        return [...updatedScores];
+      });
+    } else {
+      // inactionのスコアを更新
+      inactionScores.update((currentScores: ScoreInfo[]) => {
+        const updatedScores = Array.isArray(currentScores)
+          ? currentScores
+          : [currentScores];
+
+        if (!updatedScores[categoryIndex]) {
+          updatedScores[categoryIndex] = {
+            action,
+            category: categoryName,
+            points: null,
+            note: null,
+          };
+        }
+        updatedScores[categoryIndex] = {
+          action,
+          category: categoryName,
+          points,
+          note,
+        };
+        console.log($inactionScores);
+        return [...updatedScores];
+      });
+    }
   }
 
-  // 行動の選択とメモをstoreに保存
-  function saveSelectedActionsAndNotes() {
-    selectedActions.update((currentActions) => {
-      return currentActions.map((action, index) => ({
-        ...action,
-        memo: actionNotes[index],
-      }));
+  // 各ポイント等保存
+  function saveData() {
+    actionPoints.forEach((point, index) => {
+      updateScore("action", index, point, actionNotes[index]);
     });
-    console.log($selectedActions);
+
+    inactionPoints.forEach((point, index) => {
+      updateScore("inaction", index, point, inactionNotes[index]);
+    });
   }
 
   // 結果画面遷移
@@ -91,8 +206,7 @@
       alert("悩みを入力してください");
       return;
     }
-    // 行動の選択とメモをstoreに保存
-    saveSelectedActionsAndNotes();
+    saveData();
     goto("/actionResult");
   }
 </script>
@@ -114,10 +228,10 @@
 </div>
 
 <div class="flex justify-center w-full mt-4">
-  <div class="flex w-2/3 justify-center align-middle">
-    <div class="container mx-4 p-4 bg-gradient-teal200-white-red200 mb-8">
+  <div class="flex w-4/5 justify-center align-middle">
+    <div class="container mx-4 p-4 bg-teal-100 mb-8">
       <h2 class="text-2xl mb-4 font-bold text-center">
-        行動する？行動しない？どちらの方が魅力的？
+        行動することで得られるメリット
       </h2>
       <div class="">
         {#each actionCategories as category, index}
@@ -130,45 +244,40 @@
               />
             </figure>
             <div class="card-body items-center text-center">
-              <h2 class="card-title">{category}　に対する影響</h2>
-              <p>行動するメリット：　{actionDetails[index]}　など…</p>
-              <p>行動しないメリット：　{inactionDetails[index]}　など…</p>
-              <div class="flex justify-center items-center">
-                <label class="mx-2">
-                  <input
-                    type="radio"
-                    value="行動する"
-                    checked={$selectedActions[index].action === "行動する"}
-                    on:change={() => updateAction(index, "行動する")}
-                  />
-                  行動する
-                </label>
-                <label class="mx-2">
-                  <input
-                    type="radio"
-                    value="どちらでもない"
-                    checked={$selectedActions[index].action ===
-                      "どちらでもない"}
-                    on:change={() => updateAction(index, "どちらでもない")}
-                  />
-                  どちらでもない
-                </label>
-                <label class="mx-2">
-                  <input
-                    type="radio"
-                    value="行動しない"
-                    checked={$selectedActions[index].action === "行動しない"}
-                    on:change={() => updateAction(index, "行動しない")}
-                  />
-                  行動しない
-                </label>
+              <h2 class="card-title">{category}</h2>
+              <p>{actionDetails[index]}</p>
+              <div class="w-1/5 mx-auto flex justify-center items-center">
+                {#each [1, 2, 3, 4, 5] as num (num)}
+                  <label class="inline-flex items-center">
+                    <input
+                      type="radio"
+                      class="form-radio ml-2"
+                      value={num}
+                      bind:group={actionPoints[index]}
+                    />
+                    <span class="ml-2">{num}</span>
+                  </label>
+                {/each}
               </div>
               <input
                 type="text"
                 placeholder="メモ"
                 bind:value={actionNotes[index]}
+                maxlength="30"
+                class="border rounded ml-2 w-4/5 p-2"
               />
             </div>
+          </div>
+        {/each}
+      </div>
+    </div>
+    <div class="container mx-auto p-4 bg-red-100 mb-8">
+      <h2 class="text-2xl mb-4 font-bold text-center">
+        行動しないことで得られるメリット
+      </h2>
+      <div class="">
+        {#each inactionCategories as category, index}
+          <div class="card lg:card-side bg-base-100 shadow-xl m-4">
             <figure>
               <img
                 src={`/src/lib/images/${inactionImage[index]}`}
@@ -176,63 +285,35 @@
                 class="rounded-xl p-4 w-2/3"
               />
             </figure>
+            <div class="card-body items-center text-center">
+              <h2 class="card-title">{category}</h2>
+              <p>{inactionDetails[index]}</p>
+              <div class="w-1/5 mx-auto flex justify-center items-center">
+                {#each [1, 2, 3, 4, 5] as num (num)}
+                  <label class="inline-flex items-center">
+                    <input
+                      type="radio"
+                      class="form-radio ml-2"
+                      value={num}
+                      bind:group={inactionPoints[index]}
+                    />
+                    <span class="ml-2">{num}</span>
+                  </label>
+                {/each}
+              </div>
+              <input
+                type="text"
+                placeholder="メモ"
+                bind:value={inactionNotes[index]}
+                maxlength="30"
+                class="border rounded ml-2 w-4/5 p-2"
+              />
+            </div>
           </div>
         {/each}
       </div>
     </div>
   </div>
-</div>
-
-{#each $extraCategories as category, index}
-  <div class="card lg:card-side bg-base-100 shadow-xl m-4">
-    <div class="card-body items-center text-center">
-      <h2 class="card-title">新しいカテゴリー</h2>
-      <input
-        type="text"
-        placeholder="カテゴリー名を入力"
-        bind:value={addActionCategories[index]}
-      />
-      <div class="flex justify-center items-center">
-        <label class="mx-2">
-          <input
-            type="radio"
-            value="行動する"
-            checked={$selectedActions[index]?.action === "行動する"}
-            on:change={() => updateAction(index, "行動する")}
-          />
-          行動する
-        </label>
-        <label class="mx-2">
-          <input
-            type="radio"
-            value="どちらでもない"
-            checked={$selectedActions[index]?.action === "どちらでもない"}
-            on:change={() => updateAction(index, "どちらでもない")}
-          />
-          どちらでもない
-        </label>
-        <label class="mx-2">
-          <input
-            type="radio"
-            value="行動しない"
-            checked={$selectedActions[index]?.action === "行動しない"}
-            on:change={() => updateAction(index, "行動しない")}
-          />
-          行動しない
-        </label>
-      </div>
-      <input type="text" placeholder="メモ" bind:value={actionNotes[index]} />
-    </div>
-  </div>
-{/each}
-
-<div class="flex my-4 justify-center align-middle text-center">
-  <button
-    class="bg-blue-500 hover:bg-blue-700 text-white p-4 mx-2 rounded"
-    on:click={addCategory}
-  >
-    項目を増やす
-  </button>
 </div>
 
 <div class="flex my-4 justify-center align-middle text-center">
