@@ -1,6 +1,7 @@
 import { writable } from "svelte/store";
 
 type ScoreInfo = {
+  action?: string;
   category: string | null; // ここを string に変更
   points: number | null;
   note: string | null;

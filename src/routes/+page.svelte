@@ -14,6 +14,7 @@
     points: number | null;
     note: string | null;
   }
+
   // 一時的な保存変数
   let actionPoints: number[] = [];
   let actionNotes: string[] = [];
@@ -80,20 +81,15 @@
     action: "action" | "inaction"
   ): number[] => {
     if (returned) {
-      // 他の画面から戻ってきた場合は既存のスコアの配列を返す
       if (action === "action" && $actionScores.length > 0) {
         return $actionScores.map((score) => score.points || 0);
       } else if (action === "inaction" && $inactionScores.length > 0) {
         return $inactionScores.map((score) => score.points || 0);
       }
-      setReturned(false);
     }
 
-    const arr: number[] = [];
-    for (let i = 0; i < numOfCategories; i++) {
-      arr.push(3); // 初期値は3に設定
-    }
-    return arr;
+    // 既存のスコアがない場合、またはreturnedフラグがfalseの場合、初期値を返す
+    return Array(numOfCategories).fill(3); // 初期値は3に設定
   };
 
   // 初期値の適用
@@ -133,70 +129,48 @@
     points: number,
     note: string
   ) {
-    // カテゴリの名前を取得
     const categoryName =
       action === "action"
         ? actionCategories[categoryIndex]
         : inactionCategories[categoryIndex];
 
     if (action === "action") {
-      // actionのスコアを更新
-      actionScores.update((currentScores: ScoreInfo[]) => {
-        const updatedScores = Array.isArray(currentScores)
-          ? currentScores
-          : [currentScores];
-
-        if (!updatedScores[categoryIndex]) {
-          updatedScores[categoryIndex] = {
-            action,
-            category: categoryName,
-            points: null,
-            note: null,
-          };
-        }
+      actionScores.update((currentScores) => {
+        const updatedScores = [...currentScores];
         updatedScores[categoryIndex] = {
           action,
           category: categoryName,
           points,
           note,
-        };
-        return [...updatedScores];
+        }; // ここでエラーが出ない
+        return updatedScores;
       });
     } else {
-      // inactionのスコアを更新
-      inactionScores.update((currentScores: ScoreInfo[]) => {
-        const updatedScores = Array.isArray(currentScores)
-          ? currentScores
-          : [currentScores];
-
-        if (!updatedScores[categoryIndex]) {
-          updatedScores[categoryIndex] = {
-            action,
-            category: categoryName,
-            points: null,
-            note: null,
-          };
-        }
+      inactionScores.update((currentScores) => {
+        const updatedScores = [...currentScores];
         updatedScores[categoryIndex] = {
           action,
           category: categoryName,
           points,
           note,
-        };
-        console.log($inactionScores);
-        return [...updatedScores];
+        }; // ここでエラーが出ない
+        return updatedScores;
       });
     }
   }
 
   // 各ポイント等保存
   function saveData() {
-    actionPoints.forEach((point, index) => {
-      updateScore("action", index, point, actionNotes[index]);
+    const newActionPoints = [...actionPoints]; // スプレッド構文で配列をコピー
+    const newActionNotes = [...actionNotes]; // スプレッド構文で配列をコピー
+    newActionPoints.forEach((point, index) => {
+      updateScore("action", index, point, newActionNotes[index]);
     });
 
-    inactionPoints.forEach((point, index) => {
-      updateScore("inaction", index, point, inactionNotes[index]);
+    const newInactionPoints = [...inactionPoints]; // スプレッド構文で配列をコピー
+    const newInactionNotes = [...inactionNotes]; // スプレッド構文で配列をコピー
+    newInactionPoints.forEach((point, index) => {
+      updateScore("inaction", index, point, newInactionNotes[index]);
     });
   }
 
@@ -211,7 +185,7 @@
   }
 </script>
 
-<div class="container mx-auto p-4 w-1/2 bg-gray-200 my-8">
+<div class="container mx-auto p-4 w-3/5 bg-gray-200 my-8">
   <div class="my-4 flex">
     <div class="w-1/5">
       <label for="issue" class="text-3xl mb-2 font-bold">悩み: </label>

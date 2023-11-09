@@ -103,6 +103,7 @@
       inactionCoordinates
     );
   }
+
   // この関数内でカテゴリ名用の座標も計算
   function generateCategoryLabelCoordinates(
     scores: Score[],
@@ -200,7 +201,7 @@
     <div class="justify-center my-8">
       <div>
         <h3 class="text-center font-bold">行動する場合のメリット</h3>
-        <svg height="400" width="400">
+        <svg height="500" width="500" class="justify-center">
           <polygon
             points={actionHexagonPoints}
             style="fill:#64c7cc;stroke:#eceeef;stroke-width:1"
@@ -208,7 +209,7 @@
           {#each categoryLabelCoordinates as coordinate, i}
             <text
               x={i < 3 ? coordinate.x + -30 : coordinate.x - 60}
-              y={i < 3 ? coordinate.y + 20 : coordinate.y - 20}
+              y={i < 3 ? coordinate.y + 30 : coordinate.y - 20}
               font-family="Verdana"
               font-size="14"
               class="m-2">{$actionScores[i].category}</text
@@ -226,7 +227,8 @@
 
       <div>
         <h3 class="text-center font-bold">行動しない場合のメリット</h3>
-        <svg height="400" width="400">
+
+        <svg height="500" width="500">
           <polygon
             points={inactionHexagonPoints}
             style="fill:#FF0000;stroke:#eceeef;stroke-width:1"
