@@ -131,7 +131,7 @@
   );
 
   // SVGの中心座標
-  const svgCenterX = 200;
+  const svgCenterX = 250;
   const svgCenterY = 200;
 
   $: if ($actionScores.length === 6) {
@@ -201,14 +201,26 @@
     <div class="justify-center my-8">
       <div>
         <h3 class="text-center font-bold">行動する場合のメリット</h3>
-        <svg height="500" width="500" class="justify-center">
+        <svg height="400" width="500" class="justify-center">
+          <defs>
+            <linearGradient
+              id="gradientAction"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="100%"
+            >
+              <stop offset="0%" style="stop-color:#96deda; stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#50c9c3; stop-opacity:1" />
+            </linearGradient>
+          </defs>
           <polygon
             points={actionHexagonPoints}
-            style="fill:#64c7cc;stroke:#eceeef;stroke-width:1"
+            style="fill:url(#gradientAction);stroke:#eceeef;stroke-width:1"
           />
           {#each categoryLabelCoordinates as coordinate, i}
             <text
-              x={i < 3 ? coordinate.x + -30 : coordinate.x - 60}
+              x={i < 3 ? coordinate.x - 0 : coordinate.x - 100}
               y={i < 3 ? coordinate.y + 30 : coordinate.y - 20}
               font-family="Verdana"
               font-size="14"
@@ -228,15 +240,21 @@
       <div>
         <h3 class="text-center font-bold">行動しない場合のメリット</h3>
 
-        <svg height="500" width="500">
+        <svg height="400" width="500" class="justify-center">
+          <defs>
+            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#fad0c4; stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#ff9a9e; stop-opacity:1" />
+            </linearGradient>
+          </defs>
           <polygon
             points={inactionHexagonPoints}
-            style="fill:#FF0000;stroke:#eceeef;stroke-width:1"
+            style="fill:url(#gradient);stroke:#eceeef;stroke-width:1"
           />
           {#each categoryLabelCoordinates as coordinate, i}
             <text
-              x={i < 3 ? coordinate.x + 10 : coordinate.x - 60}
-              y={i < 3 ? coordinate.y + 20 : coordinate.y - 20}
+              x={i < 3 ? coordinate.x - 0 : coordinate.x - 100}
+              y={i < 3 ? coordinate.y + 30 : coordinate.y - 20}
               font-family="Verdana"
               font-size="14"
               class="m-2">{$inactionScores[i].category}</text
