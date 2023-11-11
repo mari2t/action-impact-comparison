@@ -235,7 +235,7 @@
         <div class="card lg:card-side bg-base-100 shadow-xl m-4">
           <figure>
             <img
-              src={`/src/lib/images/${actionImage[index]}`}
+              src={`/${actionImage[index]}`}
               alt={category}
               class="rounded-xl p-4 w-2/3"
             />
@@ -277,7 +277,7 @@
         <div class="card lg:card-side bg-base-100 shadow-xl m-4">
           <figure>
             <img
-              src={`/src/lib/images/${inactionImage[index]}`}
+              src={`/${inactionImage[index]}`}
               alt={category}
               class="rounded-xl p-4 w-2/3"
             />
