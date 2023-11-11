@@ -2,7 +2,7 @@ import { writable } from "svelte/store";
 
 type ScoreInfo = {
   action?: string;
-  category: string | null; // ここを string に変更
+  category: string | null; 
   points: number | null;
   note: string | null;
 };

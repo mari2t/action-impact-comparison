@@ -8,12 +8,12 @@
   } from "./store";
   import { goto } from "$app/navigation";
 
-  interface ScoreInfo {
+  type ScoreInfo = {
     action?: string;
     category: string | null;
     points: number | null;
     note: string | null;
-  }
+  };
 
   // 一時的な保存変数
   let actionPoints: number[] = [];
@@ -80,23 +80,47 @@
     numOfCategories: number,
     action: "action" | "inaction"
   ): number[] => {
-    if (returned) {
+    if ($returned) {
       if (action === "action" && $actionScores.length > 0) {
         return $actionScores.map((score) => score.points || 0);
       } else if (action === "inaction" && $inactionScores.length > 0) {
         return $inactionScores.map((score) => score.points || 0);
       }
+      setReturned(false);
+    } else {
+      // スコアをリセット
+      resetScores(numOfCategories);
+      setReturned(true);
     }
 
-    // 既存のスコアがない場合、またはreturnedフラグがfalseの場合、初期値を返す
-    return Array(numOfCategories).fill(3); // 初期値は3に設定
+    return Array(numOfCategories).fill(3);
   };
+
+  // スコアをリセットする関数
+  const resetScores = (numOfCategories: number) => {
+    const defaultScores = Array(numOfCategories).fill({
+      action: "",
+      category: null,
+      points: 3,
+      note: null,
+    });
+    actionScores.set(defaultScores);
+    inactionScores.set(defaultScores);
+    issue.set("");
+  };
+
+  // 初期化処理
+  if (!$returned) {
+    resetScores(actionCategories.length);
+    resetScores(inactionCategories.length);
+    setReturned(true);
+  }
 
   // 初期値の適用
   actionPoints = initializeScores(actionCategories.length, "action");
   inactionPoints = initializeScores(inactionCategories.length, "inaction");
 
-  // 初期化処理
+  // scoreの更新
   actionScores.subscribe(($actionScores) => {
     if ($actionScores.length > 0) {
       $actionScores.forEach((scoreInfo, index) => {
@@ -142,7 +166,7 @@
           category: categoryName,
           points,
           note,
-        }; // ここでエラーが出ない
+        };
         return updatedScores;
       });
     } else {
@@ -153,7 +177,7 @@
           category: categoryName,
           points,
           note,
-        }; // ここでエラーが出ない
+        };
         return updatedScores;
       });
     }
@@ -161,14 +185,14 @@
 
   // 各ポイント等保存
   function saveData() {
-    const newActionPoints = [...actionPoints]; // スプレッド構文で配列をコピー
-    const newActionNotes = [...actionNotes]; // スプレッド構文で配列をコピー
+    const newActionPoints = [...actionPoints];
+    const newActionNotes = [...actionNotes];
     newActionPoints.forEach((point, index) => {
       updateScore("action", index, point, newActionNotes[index]);
     });
 
-    const newInactionPoints = [...inactionPoints]; // スプレッド構文で配列をコピー
-    const newInactionNotes = [...inactionNotes]; // スプレッド構文で配列をコピー
+    const newInactionPoints = [...inactionPoints];
+    const newInactionNotes = [...inactionNotes];
     newInactionPoints.forEach((point, index) => {
       updateScore("inaction", index, point, newInactionNotes[index]);
     });

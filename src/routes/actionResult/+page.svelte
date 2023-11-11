@@ -166,6 +166,7 @@
   }
 
   function startOver() {
+    setReturned(false);
     goto("/");
   }
 </script>
