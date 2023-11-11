@@ -191,7 +191,7 @@
         比較日 : {new Date().toLocaleDateString()}
       </p>
       <p class=" text-center text-xl mb-4 font-bold">
-        件名 : {$issue}
+        悩み: {$issue}
       </p>
       <h3 class=" text-center text-xl font-semibold mb-2 underline-custom my-4">
         比較結果 : {recommendedAction}
@@ -201,7 +201,9 @@
     <!--　ヘキサゴン -->
     <div class="justify-center my-8">
       <div>
-        <h3 class="text-center font-bold">行動する場合のメリット</h3>
+        <h3 class="text-center text-lg font-semibold">
+          行動する場合のメリット(ポイント: {actionSum})
+        </h3>
         <svg height="400" width="500" class="justify-center">
           <defs>
             <linearGradient
@@ -239,7 +241,9 @@
       </div>
 
       <div>
-        <h3 class="text-center font-bold">行動しない場合のメリット</h3>
+        <h3 class="text-center text-lg font-semibold">
+          行動しない場合のメリット(ポイント: {inactionSum})
+        </h3>
 
         <svg height="400" width="500" class="justify-center">
           <defs>
@@ -274,9 +278,7 @@
 
     <div class="w-full">
       <!-- 行動する場合のデータ -->
-      <h2 class="text-xl font-semibold mb-2">
-        行動する場合 (合計ポイント: {actionSum})
-      </h2>
+      <h2 class="text-xl font-semibold mb-2">行動する場合</h2>
       <div class="">
         <table class="min-w-full bg-white border border-gray-300 w-3/5">
           <thead class="bg-gray-100">
@@ -299,9 +301,7 @@
       </div>
 
       <!-- 行動しない場合のデータ -->
-      <h2 class="text-xl font-semibold mt-8 mb-2">
-        行動しない場合 (合計ポイント: {inactionSum})
-      </h2>
+      <h2 class="text-xl font-semibold mt-8 mb-2">行動しない場合</h2>
       <div class="">
         <table class="min-w-full bg-white border border-gray-300">
           <thead class="bg-gray-100">
