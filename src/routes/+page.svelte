@@ -232,7 +232,7 @@
     </h2>
     <div class="">
       {#each actionCategories as category, index}
-        <div class="card lg:card-side bg-base-100 shadow-xl m-4">
+        <div class="card lg:card-side bg-base-100 shadow-xl m-2">
           <figure>
             <img
               src={`/${actionImage[index]}`}
@@ -274,7 +274,7 @@
     </h2>
     <div class="">
       {#each inactionCategories as category, index}
-        <div class="card lg:card-side bg-base-100 shadow-xl m-4">
+        <div class="card lg:card-side bg-base-100 shadow-xl m-2">
           <figure>
             <img
               src={`/${inactionImage[index]}`}

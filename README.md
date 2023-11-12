@@ -2,9 +2,14 @@
 
 ## Overview
 
-悩み事に対して、行動する場合と行動しない場合を比較検討するためのアプリです。
+悩み事に対して、行動する場合と行動しない場合を比較検討するためのアプリです。  
+This application is used to compare and contrast the case of taking action and not taking action on a problem.
 
 ## Example
+
+### ![example1.png](./src/lib/images/example1.png "example1.png")
+
+### ![example2.png](./src/lib/images/example2.png "example2.png")
 
 ## Features
 
@@ -14,11 +19,13 @@
 
 ## Creation Date
 
+2023/11/11
+
 ## Purpose of creation
 
 何かを決めるとき時間がかかってしまうのと、  
 色々な項目で迷ってなんとなく決めていることがあるので、  
-決定を早めるのと明確にする目的で作りました。  
-悩み事に対して行動する場合としない場合、  
+決定を早めるのと根拠を明確にしたくて作りました。  
+機能面では、悩み事に対して行動する場合としない場合、  
 どちらにもなんらかのメリットがあると感じるので、  
 それぞれ点数を付けて比較できるようにしました。
