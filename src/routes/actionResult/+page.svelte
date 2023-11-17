@@ -173,9 +173,9 @@
 
 <div class="container mx-auto pt-10 px-36">
   <div class="flex justify-center w-full">
-    <div class="w-1/6">
+    <div class="w-3/4 md:w-1/6">
       <h2
-        class="text-2xl font-bold bg-gray-700 text-white p-2 rounded-sm text-center"
+        class="text-sm lg:text-2xl font-bold bg-gray-700 text-white p-2 rounded-sm text-center"
       >
         比較結果
       </h2>
@@ -187,13 +187,15 @@
   <div class="w-1/2 m-0">
     <!--　推奨行動 -->
     <div class="w-1-2 flex-col">
-      <p class="text-lg text-center mb-8 mt-4">
+      <p class="text-md md:text-lg text-center mb-8 mt-4">
         比較日 : {new Date().toLocaleDateString()}
       </p>
-      <p class=" text-center text-xl mb-4 font-bold">
+      <p class="text-md md:text-lg text-center mb-4 font-bold">
         悩み: {$issue}
       </p>
-      <h3 class=" text-center text-xl font-semibold mb-2 underline-custom my-4">
+      <h3
+        class="text-md md:text-lg text-center font-semibold mb-2 underline-custom my-4"
+      >
         比較結果 : {recommendedAction}
       </h3>
     </div>
