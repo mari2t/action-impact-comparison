@@ -8,19 +8,13 @@
   } from "./store";
   import { goto } from "$app/navigation";
 
-  type ScoreInfo = {
-    action?: string;
-    category: string | null;
-    points: number | null;
-    note: string | null;
-  };
-
-  // 一時的な保存変数
+  // ポイントとメモの保存変数
   let actionPoints: number[] = [];
   let actionNotes: string[] = [];
   let inactionPoints: number[] = [];
   let inactionNotes: string[] = [];
 
+  // 行動する場合としない場合のカテゴリ
   const actionCategories = [
     "1. 🚀スキルアップ",
     "2. 💴経済的状況",
