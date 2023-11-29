@@ -14,7 +14,10 @@
 
   let actionSum = 0;
   let inactionSum = 0;
+  let actionHexagonPoints = "";
+  let inactionHexagonPoints = "";
 
+  // ポイントを計算
   $: actionSum = $actionScores.reduce(
     (acc, score) => acc + (score.points || 0),
     0
@@ -24,6 +27,7 @@
     0
   );
 
+  // ポイントから推奨行動を決定
   let recommendedAction = "";
   $: {
     if (actionSum > inactionSum) {
@@ -60,9 +64,6 @@
       })
       .join(" ");
   }
-
-  let actionHexagonPoints = "";
-  let inactionHexagonPoints = "";
 
   $: if ($actionScores.length === 6) {
     actionHexagonPoints = generateIrregularHexagonPoints(
