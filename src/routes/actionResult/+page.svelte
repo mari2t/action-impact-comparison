@@ -56,7 +56,7 @@
 
     return angles
       .map((angle, i) => {
-        const radius = (scores[i].points || 0) * 20;
+        const radius = (scores[i].points || 0) * 20; // ポイントに応じて半径を変更
         const x = Math.cos((Math.PI / 180) * angle) * radius + centerX;
         const y = Math.sin((Math.PI / 180) * angle) * radius + centerY;
         coordinates.push({ x, y }); // 座標を配列に保存
@@ -68,8 +68,8 @@
   $: if ($actionScores.length === 6) {
     actionHexagonPoints = generateIrregularHexagonPoints(
       $actionScores,
-      150,
-      150,
+      150, //centerX
+      150, //centerY
       actionCoordinates
     );
   }
